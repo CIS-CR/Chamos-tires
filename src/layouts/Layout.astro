@@ -1,58 +1,50 @@
 ---
+import SEO from '../components/SEO.astro';
 import '../styles/global.css';
 
 interface Props {
   title?: string;
   description?: string;
-  canonicalPath?: string;
+  canonical?: string;
+  image?: string;
+  imageAlt?: string;
+  noindex?: boolean;
+  pageType?: 'website' | 'article';
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  locale?: string;
 }
 
-const businessName = import.meta.env.PUBLIC_BUSINESS_NAME || 'Chamos Tire Co';
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://chamos-tires.pages.dev';
-const businessPhone = import.meta.env.PUBLIC_BUSINESS_PHONE || '';
-const businessEmail = import.meta.env.PUBLIC_BUSINESS_EMAIL || '';
 const {
-  title = 'Quality Used Tires in Apex, NC | Chamos Tire Co',
-  description = 'Find affordable, inspected used tires for cars, SUVs, and trucks in Apex, North Carolina. Request tire availability from Chamos Tire Co.',
-  canonicalPath = Astro.url.pathname,
+  title = 'Used Tires in Apex, NC | Chamos Tire Co',
+  description = 'Find affordable, inspected used tires for cars, SUVs, and trucks in Apex, NC. Request tire availability from Chamos Tire Co today.',
+  canonical = Astro.url.pathname,
+  image,
+  imageAlt,
+  noindex,
+  pageType,
+  structuredData,
+  locale,
 } = Astro.props;
-const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
-const schema = {
-  '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  name: businessName,
-  url: siteUrl,
-  telephone: businessPhone || undefined,
-  email: businessEmail || undefined,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Apex',
-    addressRegion: 'NC',
-    addressCountry: 'US',
-  },
-  areaServed: ['Apex NC', 'Cary NC', 'Raleigh NC', 'Holly Springs NC'],
-};
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-US">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={canonicalUrl} />
     <meta name="generator" content={Astro.generator} />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:site_name" content={businessName} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
-    <title>{title}</title>
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonical}
+      image={image}
+      imageAlt={imageAlt}
+      noindex={noindex}
+      pageType={pageType}
+      structuredData={structuredData}
+      locale={locale}
+    />
   </head>
   <body>
     <slot />

@@ -1,109 +1,157 @@
 ---
 import LeadForm from '../components/LeadForm.astro';
+import Nap from '../components/Nap.astro';
 import Layout from '../layouts/Layout.astro';
+import { business, getPublicPhoneHref, getPublicSmsHref } from '../config/business';
+import { createTireShopJsonLd } from '../lib/seo/structuredData';
 
-const businessName = import.meta.env.PUBLIC_BUSINESS_NAME || 'Chamos Tire Co';
-const businessPhone = import.meta.env.PUBLIC_BUSINESS_PHONE || '[Phone number pending]';
-const businessEmail = import.meta.env.PUBLIC_BUSINESS_EMAIL || '[Email pending]';
+const title = 'Used Tires in Apex, NC | Chamos Tire Co';
+const description = 'Find affordable, inspected used tires for cars, SUVs, and trucks in Apex, NC. Request tire availability from Chamos Tire Co today.';
+const socialImage = business.defaultSocialImage;
+const canonicalUrl = new URL('/', business.mainDomain).toString();
+const socialImageUrl = new URL(socialImage, business.mainDomain).toString();
+const structuredData = createTireShopJsonLd(canonicalUrl, socialImageUrl);
+const phoneHref = getPublicPhoneHref();
+const smsHref = getPublicSmsHref();
 ---
 
-<Layout>
+<Layout
+  title={title}
+  description={description}
+  canonical="/"
+  image={socialImage}
+  imageAlt="Chamos Tire Co used tire availability in Apex, North Carolina"
+  structuredData={structuredData}
+>
   <header class="site-header">
-    <a class="brand" href="/" aria-label={businessName}>
+    <a class="brand" href="/" aria-label={business.publicName}>
       <span class="brand-mark">CT</span>
-      <span>{businessName}</span>
+      <span>{business.publicName}</span>
     </a>
     <nav aria-label="Primary">
-      <a href="#services">Services</a>
-      <a href="#request">Find Your Tire</a>
+      <a href="#services">Products and Services</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#why-choose-us">Why Choose Us</a>
+      <a href="#service-area">Service Area</a>
       <a href="#faq">FAQ</a>
+      <a href="#request">Find Your Tire</a>
     </nav>
   </header>
 
   <main>
     <section class="hero">
       <div class="hero-copy">
-        <p class="eyebrow">Apex, North Carolina</p>
-        <h1>Quality Used Tires at Affordable Prices</h1>
-        <p class="hero-text">Reliable used tires for cars, SUVs, and trucks in Apex, North Carolina, and surrounding areas.</p>
-        <div class="hero-actions">
+        <p class="eyebrow">Used Tires in Apex, NC</p>
+        <h1>Affordable Used Tires in Apex, NC</h1>
+        <p class="hero-text">Looking for affordable used tires near you? Chamos Tire Co helps drivers in Apex and nearby Triangle communities find inspected used tires for cars, SUVs, trucks, and work vehicles.</p>
+        <div class="hero-actions" aria-label="Primary tire request actions">
           <a class="button button-primary" href="#request">Find Your Tire</a>
-          <a class="button button-secondary" href={`tel:${businessPhone}`}>Call or Text Us</a>
+          {phoneHref ? (
+            <>
+              <a class="button button-secondary" href={phoneHref}>Call or Text Us</a>
+              <a class="visually-hidden" href={smsHref}>Text Chamos Tire Co</a>
+            </>
+          ) : (
+            <a class="button button-secondary" href="#request" aria-describedby="phone-pending">Call or Text Us</a>
+          )}
         </div>
-        <p class="placeholder-note">Business phone, address, hours, prices, installation details, and payment methods are pending confirmation.</p>
+        <p class="placeholder-note" id="phone-pending">Phone, address, hours, prices, payment methods, and installation details are pending confirmation.</p>
       </div>
-      <div class="hero-panel" aria-label="Tire availability workflow">
-        <span>Request</span>
-        <span>Availability Review</span>
-        <span>Quote Sent</span>
-        <span>Appointment Scheduled</span>
-      </div>
+      <figure class="hero-media">
+        <img
+          src="/images/chamos-tires-social-placeholder.svg"
+          width="1200"
+          height="630"
+          alt="Used tires for cars, SUVs, and trucks"
+          decoding="async"
+          fetchpriority="high"
+        />
+        <figcaption>Placeholder visual. Replace with real Chamos Tire Co inventory photography.</figcaption>
+      </figure>
     </section>
 
     <section class="section" id="services">
       <p class="eyebrow">Products and Services</p>
-      <h2>Used tire availability without the guesswork.</h2>
+      <h2>Find the Right Used Tire for Your Vehicle</h2>
+      <p>Send your tire size or vehicle information and Chamos Tire Co can review availability for the right fit. This request flow is designed for drivers who need practical options before coordinating a visit or appointment.</p>
       <div class="card-grid">
-        <article><h3>Used Tires</h3><p>Availability requests for cars, SUVs, and trucks. Inventory details are pending business confirmation.</p></article>
-        <article><h3>Tire Size Matching</h3><p>Share your tire size or vehicle information so the team can review compatible options.</p></article>
-        <article><h3>Appointment Requests</h3><p>Preferred visit dates are captured now, with calendar and SMS integrations reserved for a later phase.</p></article>
+        <article><h3>Used Tires for Cars</h3><p>Availability requests for common passenger car tire sizes, including single tires, pairs, and replacement sets when available.</p></article>
+        <article><h3>Used Tires for SUVs</h3><p>Support for SUV tire availability requests using the tire size or the year, make, and model of the vehicle.</p></article>
+        <article><h3>Used Tires for Trucks and Work Vehicles</h3><p>Used tire requests for trucks and work vehicles can be submitted for review. Final availability depends on current inventory.</p></article>
+        <article><h3>Single Tires, Pairs, and Full Sets</h3><p>Customers may request one tire, a pair, or a full set. Chamos Tire Co will confirm what is available before next steps.</p></article>
       </div>
     </section>
 
-    <section class="section muted">
-      <p class="eyebrow">How It Works</p>
-      <h2>A simple request-to-follow-up flow.</h2>
-      <ol class="steps">
-        <li><strong>Submit tire details.</strong><span>Tell us your vehicle, tire size, quantity, and contact preference.</span></li>
-        <li><strong>Availability review.</strong><span>Chamos Tire Co checks options and prepares next steps.</span></li>
-        <li><strong>Quote and appointment.</strong><span>The team follows up with availability, price, and appointment information.</span></li>
-      </ol>
-    </section>
-
-    <section class="section">
-      <p class="eyebrow">Why Choose Chamos Tire Co</p>
-      <h2>Built for practical tire shoppers.</h2>
+    <section class="section muted" id="why-choose-us">
+      <p class="eyebrow">Why Choose Us</p>
+      <h2>Why Apex Drivers Choose Chamos Tire Co</h2>
       <div class="split">
-        <p>This initial website is structured to help local customers request tire availability quickly. Final business claims, reviews, certifications, and operating details will be added only after confirmation from Chamos Tire Co.</p>
+        <p>Chamos Tire Co is being structured around clear tire availability requests, personalized assistance, and local follow-up. The website avoids unverified claims and will be updated as the business confirms more public details.</p>
         <ul class="check-list">
-          <li>Mobile-first lead capture.</li>
-          <li>Structured FBOS workflow for follow-up.</li>
-          <li>Prepared for email, Turnstile, R2 uploads, SMS, WhatsApp, and appointments.</li>
+          <li>Tires visually inspected before being offered for sale.</li>
+          <li>Affordable options for different budgets.</li>
+          <li>Personalized assistance with size and vehicle information.</li>
+          <li>Different sizes and brands, depending on inventory.</li>
+          <li>Honest and transparent local service.</li>
         </ul>
       </div>
     </section>
 
-    <section class="section muted">
+    <section class="section" id="how-it-works">
+      <p class="eyebrow">How It Works</p>
+      <h2>How to Request Tire Availability</h2>
+      <ol class="steps">
+        <li><strong>Send your tire size or vehicle information.</strong><span>Use the form to share your tire size, vehicle year, make, model, and quantity needed.</span></li>
+        <li><strong>Chamos Tire Co reviews available options.</strong><span>The request becomes an FBOS action for availability review and follow-up.</span></li>
+        <li><strong>Receive availability and pricing information.</strong><span>The team can respond with current options and next steps. Pricing is not displayed until confirmed.</span></li>
+        <li><strong>Coordinate a visit or appointment.</strong><span>Appointments and visit details depend on confirmed business hours, location, and availability.</span></li>
+      </ol>
+    </section>
+
+    <section class="section muted" id="service-area">
       <p class="eyebrow">Service Area</p>
-      <h2>Apex and surrounding communities.</h2>
-      <p>Local SEO is prepared for Apex, North Carolina, with surrounding-area references for Cary, Raleigh, Holly Springs, and nearby communities. Exact service-area language should be confirmed by the business.</p>
+      <h2>Used Tires Near Apex and Surrounding Communities</h2>
+      <p>Chamos Tire Co is focused on tire availability in Apex and nearby Triangle communities, including Holly Springs, Fuquay-Varina, Cary, Raleigh, and surrounding areas in North Carolina.</p>
+      <p>This does not imply separate locations in each city. Public address, directions, and Google Business Profile links will be added only after confirmation.</p>
+      <Nap compact />
+      <div class="local-links" aria-label="Future local landing page plan">
+        <span>Future local pages planned:</span>
+        <span>Used tires Apex NC</span>
+        <span>Used tires Holly Springs NC</span>
+        <span>Used tires Fuquay-Varina NC</span>
+        <span>Used tires Cary NC</span>
+        <span>Used tires Raleigh NC</span>
+      </div>
     </section>
 
     <section class="section request-section" id="request">
       <div>
-        <p class="eyebrow">Tire Availability Request</p>
+        <p class="eyebrow">Check Tire Availability</p>
         <h2>Find Your Tire</h2>
-        <p>Submit your tire details and preferred contact method. This form creates a Chamos Tires FBOS action for availability review.</p>
+        <p>Request the right tire size for your car, SUV, truck, or work vehicle. The form keeps the main page indexable while sending lead data to the independent Chamos Tires FBOS workflow.</p>
       </div>
       <LeadForm />
     </section>
 
     <section class="section" id="faq">
-      <p class="eyebrow">Frequently Asked Questions</p>
-      <h2>Common questions.</h2>
+      <p class="eyebrow">FAQ</p>
+      <h2>Frequently Asked Questions About Used Tires</h2>
       <div class="faq-list">
-        <details><summary>Do you list prices online?</summary><p>Pricing is pending business confirmation. This first version captures requests so the team can respond with accurate availability and next steps.</p></details>
-        <details><summary>Can I upload a tire photo?</summary><p>Photo uploads are planned for a future phase using Cloudflare R2. The current form is ready for that expansion.</p></details>
-        <details><summary>Do you offer installation?</summary><p>Installation details are not yet confirmed and should not be assumed until the business provides official information.</p></details>
+        <details><summary>How do I find my tire size?</summary><p>Look on the sidewall of your current tire for a size such as 225/65R17. You can also send your vehicle year, make, and model so Chamos Tire Co can review the request.</p></details>
+        <details><summary>Can I purchase only one used tire?</summary><p>Yes, you can request a single used tire. Availability depends on current inventory and the tire size needed.</p></details>
+        <details><summary>Do you sell pairs and full sets?</summary><p>You can request pairs or full sets through the form. Chamos Tire Co will confirm whether matching options are available.</p></details>
+        <details><summary>Are the tires inspected?</summary><p>Tires are visually inspected before being offered for sale. Details about tread depth, brands, and condition should be confirmed during follow-up.</p></details>
+        <details><summary>What types of vehicles do you serve?</summary><p>The request form supports cars, SUVs, trucks, and work vehicles. Final availability depends on the tire size and current inventory.</p></details>
+        <details><summary>How can I check tire availability?</summary><p>Use the Find Your Tire form with your tire size, vehicle information, quantity needed, and preferred contact method.</p></details>
+        <details><summary>Do I need an appointment?</summary><p>Appointment requirements are pending business confirmation. You can submit a preferred visit date so the team can coordinate next steps.</p></details>
+        <details><summary>What areas do you serve?</summary><p>The website is prepared for Apex and nearby Triangle communities including Holly Springs, Fuquay-Varina, Cary, and Raleigh.</p></details>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <strong>{businessName}</strong>
-    <p>Phone: {businessPhone}</p>
-    <p>Email: {businessEmail}</p>
-    <p>Address, hours, prices, payment methods, and installation information pending confirmation.</p>
+    <Nap />
+    <p>Business address, hours, Google Business Profile URL, payment methods, installation details, and prices are pending confirmation.</p>
     <a href="/privacy">Privacy</a>
   </footer>
 </Layout>

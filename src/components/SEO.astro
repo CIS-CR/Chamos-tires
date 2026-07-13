@@ -1,0 +1,51 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  image?: string;
+  imageAlt?: string;
+  noindex?: boolean;
+  pageType?: 'website' | 'article';
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  locale?: string;
+}
+
+const {
+  title,
+  description,
+  canonical = Astro.url.pathname,
+  image = '/images/chamos-tires-social-placeholder.svg',
+  imageAlt = 'Chamos Tire Co used tire availability in Apex, North Carolina',
+  noindex = false,
+  pageType = 'website',
+  structuredData,
+  locale = 'en_US',
+} = Astro.props;
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://chamos-tires.pages.dev';
+const canonicalUrl = new URL(canonical, siteUrl).toString();
+const imageUrl = new URL(image, siteUrl).toString();
+const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '';
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+{googleVerification && <meta name="google-site-verification" content={googleVerification} />}
+<link rel="canonical" href={canonicalUrl} />
+<meta property="og:type" content={pageType} />
+<meta property="og:locale" content={locale} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:site_name" content="Chamos Tire Co" />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:alt" content={imageAlt} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+{structuredData && (
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+)}

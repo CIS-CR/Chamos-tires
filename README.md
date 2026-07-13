@@ -184,6 +184,54 @@ Turnstile verification is prepared in `src/lib/cloudflare/turnstile.ts`. If `TUR
 - `PUBLIC_TURNSTILE_SITE_KEY`
 - `TURNSTILE_SECRET_KEY`
 
+## Local SEO
+
+The homepage targets the primary local topic:
+
+```text
+Used Tires in Apex, NC
+```
+
+The homepage uses:
+
+- A single H1.
+- Canonical URL metadata.
+- Open Graph and Twitter/X metadata.
+- `TireShop` JSON-LD with configurable business data.
+- NAP component for consistent name, address, and phone rendering.
+- `@astrojs/sitemap` for canonical sitemap generation.
+- `robots.txt` pointing to the public sitemap index.
+
+Future local landing pages are planned in `src/content/local-pages.ts`, but they should not be generated until each page has unique, useful local content.
+
+Planned future URLs:
+
+- `/used-tires-apex-nc/`
+- `/used-tires-holly-springs-nc/`
+- `/used-tires-fuquay-varina-nc/`
+- `/used-tires-cary-nc/`
+- `/used-tires-raleigh-nc/`
+
+Do not create duplicate city pages by only swapping city names.
+
+## Google Business Profile SEO Checklist
+
+External tasks pending:
+
+- Verify the Business Profile.
+- Use the real-world business name: Chamos Tire Co.
+- Select the most accurate primary category available.
+- Add correct address or service area.
+- Add phone number.
+- Add business hours.
+- Link the website.
+- Upload real business and inventory photos.
+- Request authentic customer reviews.
+- Respond to reviews.
+- Keep all information consistent with the website.
+
+Do not add artificial keywords or city names to the business name.
+
 ## Security Notes
 
 - Server-side validation is required.

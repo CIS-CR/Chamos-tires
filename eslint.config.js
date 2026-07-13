@@ -7,4 +7,12 @@ export default [
   {
     ignores: ['dist/**', '.astro/**'],
   },
+  {
+    files: ['astro.config.mjs'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+      },
+    },
+  },
 ];

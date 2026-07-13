@@ -1,0 +1,22 @@
+---
+import { business, businessLocationLabel, getPublicPhoneHref } from '../config/business';
+
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+const phoneHref = getPublicPhoneHref();
+const hasFullAddress = business.customersVisitAddress && business.streetAddress;
+---
+
+<address class:list={['nap', compact && 'nap-compact']}>
+  <strong>{business.publicName}</strong>
+  {hasFullAddress ? (
+    <span>{business.streetAddress}, {business.city}, {business.state} {business.zipCode}</span>
+  ) : (
+    <span>{businessLocationLabel} service area. Public street address pending confirmation.</span>
+  )}
+  {business.phone ? <a href={phoneHref}>{business.phone}</a> : <span>Phone pending confirmation</span>}
+  {business.email ? <a href={`mailto:${business.email}`}>{business.email}</a> : <span>Email pending confirmation</span>}
+</address>

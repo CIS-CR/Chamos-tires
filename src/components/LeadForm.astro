@@ -4,22 +4,34 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
 
 <form class="lead-form" id="lead-form" method="post" action="/api/leads" novalidate>
   <div class="form-grid">
-    <label>Customer name<input name="customerName" autocomplete="name" maxlength="120" required /></label>
-    <label>Phone number<input name="phone" autocomplete="tel" maxlength="32" required /></label>
-    <label>Email address<input name="email" type="email" autocomplete="email" maxlength="254" /></label>
-    <label>Vehicle year<input name="vehicleYear" inputmode="numeric" maxlength="12" required /></label>
-    <label>Vehicle make<input name="vehicleMake" maxlength="80" required /></label>
-    <label>Vehicle model<input name="vehicleModel" maxlength="80" required /></label>
-    <label>Tire size<input name="tireSize" placeholder="Example: 225/65R17" maxlength="40" required /></label>
-    <label>Number of tires needed<select name="tiresNeeded" required><option value="">Select</option><option value="1">1 tire</option><option value="2">2 tires</option><option value="3">3 tires</option><option value="4">4 tires</option></select></label>
-    <label>Preferred contact method<select name="preferredContactMethod" required><option value="">Select</option><option value="phone">Phone call</option><option value="text">Text message</option><option value="email">Email</option></select></label>
-    <label>Preferred visit date<input name="preferredVisitDate" type="date" /></label>
+    <label for="customerName">Customer name</label>
+    <input id="customerName" name="customerName" autocomplete="name" maxlength="120" required aria-describedby="form-status" />
+    <label for="phone">Phone number</label>
+    <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="32" required aria-describedby="form-status" />
+    <label for="email">Email address</label>
+    <input id="email" name="email" type="email" autocomplete="email" maxlength="254" aria-describedby="form-status" />
+    <label for="vehicleYear">Vehicle year</label>
+    <input id="vehicleYear" name="vehicleYear" inputmode="numeric" autocomplete="off" maxlength="12" required aria-describedby="form-status" />
+    <label for="vehicleMake">Vehicle make</label>
+    <input id="vehicleMake" name="vehicleMake" autocomplete="off" maxlength="80" required aria-describedby="form-status" />
+    <label for="vehicleModel">Vehicle model</label>
+    <input id="vehicleModel" name="vehicleModel" autocomplete="off" maxlength="80" required aria-describedby="form-status" />
+    <label for="tireSize">Tire size</label>
+    <input id="tireSize" name="tireSize" placeholder="Example: 225/65R17" autocomplete="off" maxlength="40" required aria-describedby="tireSizeHelp form-status" />
+    <p class="field-help" id="tireSizeHelp">You can find this on the tire sidewall.</p>
+    <label for="tiresNeeded">Number of tires needed</label>
+    <select id="tiresNeeded" name="tiresNeeded" required aria-describedby="form-status"><option value="">Select</option><option value="1">1 tire</option><option value="2">2 tires</option><option value="3">3 tires</option><option value="4">4 tires</option></select>
+    <label for="preferredContactMethod">Preferred contact method</label>
+    <select id="preferredContactMethod" name="preferredContactMethod" required aria-describedby="form-status"><option value="">Select</option><option value="phone">Phone call</option><option value="text">Text message</option><option value="email">Email</option></select>
+    <label for="preferredVisitDate">Preferred visit date</label>
+    <input id="preferredVisitDate" name="preferredVisitDate" type="date" aria-describedby="form-status" />
   </div>
-  <label>Additional notes<textarea name="additionalNotes" rows="4" maxlength="1200" placeholder="Share anything helpful, such as brand preference, urgency, or tire condition."></textarea></label>
+  <label for="additionalNotes">Additional notes</label>
+  <textarea id="additionalNotes" name="additionalNotes" rows="4" maxlength="1200" placeholder="Share anything helpful, such as brand preference, urgency, or tire condition."></textarea>
   <input type="hidden" name="leadSource" value="chamos-tires-landing" />
   <input type="hidden" name="turnstileToken" id="turnstileToken" value="" />
   {turnstileSiteKey && <div class="turnstile-placeholder" data-sitekey={turnstileSiteKey}>Turnstile will render here when enabled.</div>}
-  <label class="consent"><input name="consentToContact" type="checkbox" required />I agree that Chamos Tire Co may contact me about tire availability, pricing, and next steps.</label>
+  <label class="consent" for="consentToContact"><input id="consentToContact" name="consentToContact" type="checkbox" required />I agree that Chamos Tire Co may contact me about tire availability, pricing, and next steps.</label>
   <button class="button button-primary" type="submit">Submit Tire Request</button>
   <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
 </form>
