@@ -7,7 +7,7 @@ Independent Astro project for **Chamos Tire Co**, a lead-generation landing page
 - Astro
 - TypeScript
 - Cloudflare Pages
-- Astro Cloudflare adapter
+- Cloudflare Pages Functions
 - Cloudflare Workers KV
 - Cloudflare Turnstile preparation
 - Resend preparation
@@ -98,7 +98,7 @@ npm run lint
 
 ## Cloudflare Configuration
 
-`wrangler.toml` is prepared for Cloudflare Pages and the independent KV binding:
+`wrangler.toml` is prepared for Cloudflare Pages Functions and the independent KV binding:
 
 ```toml
 [[kv_namespaces]]

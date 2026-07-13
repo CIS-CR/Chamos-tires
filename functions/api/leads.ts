@@ -1,19 +1,21 @@
-import type { APIRoute } from 'astro';
-import { checkBasicRateLimit } from '../../lib/cloudflare/rateLimit';
-import { saveLeadRecord } from '../../lib/cloudflare/kv';
-import { verifyTurnstile } from '../../lib/cloudflare/turnstile';
-import { createFbosAction } from '../../lib/fbos/action';
-import { createActionId, createCustomerId, createLeadId } from '../../lib/fbos/ids';
-import { notifyLeadCreated } from '../../lib/email/resend';
-import { validateLeadRequest } from '../../lib/validation/leads';
-import type { ApiErrorResponse, ApiSuccessResponse, Lead } from '../../types/leads';
+import { checkBasicRateLimit } from '../../src/lib/cloudflare/rateLimit';
+import { saveLeadRecord } from '../../src/lib/cloudflare/kv';
+import { verifyTurnstile } from '../../src/lib/cloudflare/turnstile';
+import { createFbosAction } from '../../src/lib/fbos/action';
+import { createActionId, createCustomerId, createLeadId } from '../../src/lib/fbos/ids';
+import { notifyLeadCreated } from '../../src/lib/email/resend';
+import { validateLeadRequest } from '../../src/lib/validation/leads';
+import type { ApiErrorResponse, ApiSuccessResponse, Lead } from '../../src/types/leads';
 
-export const prerender = false;
+interface Env {
+  CHAMOS_TIRES_KV: KVNamespace;
+  TURNSTILE_SECRET_KEY?: string;
+  RESEND_API_KEY?: string;
+  RESEND_FROM_EMAIL?: string;
+  RESEND_NOTIFICATION_EMAIL?: string;
+}
 
-const getRuntimeEnv = (locals: App.Locals): Partial<Env> => {
-  const runtime = locals as App.Locals & { runtime?: { env?: Env }; env?: Env };
-  return runtime.runtime?.env || runtime.env || {};
-};
+type PagesContext = EventContext<Env, string, Record<string, unknown>>;
 
 const json = (body: ApiSuccessResponse | ApiErrorResponse, status: number): Response =>
   new Response(JSON.stringify(body), {
@@ -40,9 +42,8 @@ const parseBody = async (request: Request): Promise<Record<string, unknown> | nu
   return null;
 };
 
-export const POST: APIRoute = async ({ request, locals }) => {
+export const onRequestPost = async ({ request, env }: PagesContext): Promise<Response> => {
   try {
-    const env = getRuntimeEnv(locals);
     const kv = env.CHAMOS_TIRES_KV;
     if (!kv) {
       return json({ success: false, error: 'Lead storage is not configured.' }, 500);
@@ -104,5 +105,5 @@ export const POST: APIRoute = async ({ request, locals }) => {
   }
 };
 
-export const ALL: APIRoute = async () =>
+export const onRequest = async (): Promise<Response> =>
   json({ success: false, error: 'Method not allowed.' }, 405);

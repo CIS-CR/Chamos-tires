@@ -7,8 +7,8 @@ PUBLIC_BUSINESS_NAME = "Chamos Tire Co"
 
 [[kv_namespaces]]
 binding = "CHAMOS_TIRES_KV"
-id = "REPLACE_WITH_PRODUCTION_KV_NAMESPACE_ID"
-preview_id = "REPLACE_WITH_PREVIEW_KV_NAMESPACE_ID"
+id = "4b18b05600e04748bbc852fe724dd40e"
+preview_id = "f10149991509485d9ab5d8d5b4f8decf"
 
 # Reserved for future tire/photo uploads. Do not bind until the R2 bucket exists.
 # [[r2_buckets]]
