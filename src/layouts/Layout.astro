@@ -1,23 +1,60 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+}
+
+const businessName = import.meta.env.PUBLIC_BUSINESS_NAME || 'Chamos Tire Co';
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://chamos-tires.pages.dev';
+const businessPhone = import.meta.env.PUBLIC_BUSINESS_PHONE || '';
+const businessEmail = import.meta.env.PUBLIC_BUSINESS_EMAIL || '';
+const {
+  title = 'Quality Used Tires in Apex, NC | Chamos Tire Co',
+  description = 'Find affordable, inspected used tires for cars, SUVs, and trucks in Apex, North Carolina. Request tire availability from Chamos Tire Co.',
+  canonicalPath = Astro.url.pathname,
+} = Astro.props;
+const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: businessName,
+  url: siteUrl,
+  telephone: businessPhone || undefined,
+  email: businessEmail || undefined,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Apex',
+    addressRegion: 'NC',
+    addressCountry: 'US',
+  },
+  areaServed: ['Apex NC', 'Cary NC', 'Raleigh NC', 'Holly Springs NC'],
+};
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={businessName} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

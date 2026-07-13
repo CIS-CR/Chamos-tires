@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+const businessName = import.meta.env.PUBLIC_BUSINESS_NAME || 'Chamos Tire Co';
+---
+
+<Layout title={`Privacy | ${businessName}`} description={`Privacy information for ${businessName} tire availability requests.`}>
+  <main class="legal-page">
+    <h1>Privacy</h1>
+    <p>This placeholder privacy page explains how tire availability requests will be handled. It should be reviewed before production launch.</p>
+    <h2>Information collected</h2>
+    <p>The form may collect name, phone, email, vehicle information, tire size, preferred visit date, notes, lead source, and contact consent.</p>
+    <h2>Use of information</h2>
+    <p>Information is used to review tire availability, prepare follow-up, and manage the FBOS operational workflow.</p>
+    <h2>Not collected</h2>
+    <p>This website does not collect payment information.</p>
+    <h2>Security</h2>
+    <p>Server-side validation, Cloudflare Turnstile preparation, and basic rate limiting are included in the initial architecture.</p>
+  </main>
+</Layout>

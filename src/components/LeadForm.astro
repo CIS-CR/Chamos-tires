@@ -1,0 +1,73 @@
+---
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
+---
+
+<form class="lead-form" id="lead-form" method="post" action="/api/leads" novalidate>
+  <div class="form-grid">
+    <label>Customer name<input name="customerName" autocomplete="name" maxlength="120" required /></label>
+    <label>Phone number<input name="phone" autocomplete="tel" maxlength="32" required /></label>
+    <label>Email address<input name="email" type="email" autocomplete="email" maxlength="254" /></label>
+    <label>Vehicle year<input name="vehicleYear" inputmode="numeric" maxlength="12" required /></label>
+    <label>Vehicle make<input name="vehicleMake" maxlength="80" required /></label>
+    <label>Vehicle model<input name="vehicleModel" maxlength="80" required /></label>
+    <label>Tire size<input name="tireSize" placeholder="Example: 225/65R17" maxlength="40" required /></label>
+    <label>Number of tires needed<select name="tiresNeeded" required><option value="">Select</option><option value="1">1 tire</option><option value="2">2 tires</option><option value="3">3 tires</option><option value="4">4 tires</option></select></label>
+    <label>Preferred contact method<select name="preferredContactMethod" required><option value="">Select</option><option value="phone">Phone call</option><option value="text">Text message</option><option value="email">Email</option></select></label>
+    <label>Preferred visit date<input name="preferredVisitDate" type="date" /></label>
+  </div>
+  <label>Additional notes<textarea name="additionalNotes" rows="4" maxlength="1200" placeholder="Share anything helpful, such as brand preference, urgency, or tire condition."></textarea></label>
+  <input type="hidden" name="leadSource" value="chamos-tires-landing" />
+  <input type="hidden" name="turnstileToken" id="turnstileToken" value="" />
+  {turnstileSiteKey && <div class="turnstile-placeholder" data-sitekey={turnstileSiteKey}>Turnstile will render here when enabled.</div>}
+  <label class="consent"><input name="consentToContact" type="checkbox" required />I agree that Chamos Tire Co may contact me about tire availability, pricing, and next steps.</label>
+  <button class="button button-primary" type="submit">Submit Tire Request</button>
+  <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#lead-form');
+  const status = document.querySelector<HTMLElement>('#form-status');
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!status) return;
+
+    const formData = new FormData(form);
+    const requiredFields = ['customerName', 'phone', 'vehicleYear', 'vehicleMake', 'vehicleModel', 'tireSize', 'tiresNeeded', 'preferredContactMethod'];
+    const missing = requiredFields.filter((field) => !String(formData.get(field) || '').trim());
+
+    if (missing.length || formData.get('consentToContact') !== 'on') {
+      status.textContent = 'Please complete the required fields and consent checkbox.';
+      status.dataset.state = 'error';
+      return;
+    }
+
+    const payload: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      payload[key] = String(value);
+    });
+    payload.consentToContact = String(formData.get('consentToContact') === 'on');
+    status.textContent = 'Sending your request...';
+    status.dataset.state = 'pending';
+
+    try {
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const result = (await response.json()) as { success?: boolean; error?: string };
+      if (!response.ok || !result.success) {
+        status.textContent = result.error || 'Unable to send your request. Please try again.';
+        status.dataset.state = 'error';
+        return;
+      }
+      form.reset();
+      status.textContent = 'Request received. Chamos Tire Co will follow up with availability and next steps.';
+      status.dataset.state = 'success';
+    } catch {
+      status.textContent = 'Unable to send your request right now. Please try again.';
+      status.dataset.state = 'error';
+    }
+  });
+</script>

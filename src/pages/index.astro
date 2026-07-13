@@ -1,11 +1,109 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import LeadForm from '../components/LeadForm.astro';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const businessName = import.meta.env.PUBLIC_BUSINESS_NAME || 'Chamos Tire Co';
+const businessPhone = import.meta.env.PUBLIC_BUSINESS_PHONE || '[Phone number pending]';
+const businessEmail = import.meta.env.PUBLIC_BUSINESS_EMAIL || '[Email pending]';
 ---
 
 <Layout>
-	<Welcome />
+  <header class="site-header">
+    <a class="brand" href="/" aria-label={businessName}>
+      <span class="brand-mark">CT</span>
+      <span>{businessName}</span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#request">Find Your Tire</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Apex, North Carolina</p>
+        <h1>Quality Used Tires at Affordable Prices</h1>
+        <p class="hero-text">Reliable used tires for cars, SUVs, and trucks in Apex, North Carolina, and surrounding areas.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#request">Find Your Tire</a>
+          <a class="button button-secondary" href={`tel:${businessPhone}`}>Call or Text Us</a>
+        </div>
+        <p class="placeholder-note">Business phone, address, hours, prices, installation details, and payment methods are pending confirmation.</p>
+      </div>
+      <div class="hero-panel" aria-label="Tire availability workflow">
+        <span>Request</span>
+        <span>Availability Review</span>
+        <span>Quote Sent</span>
+        <span>Appointment Scheduled</span>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <p class="eyebrow">Products and Services</p>
+      <h2>Used tire availability without the guesswork.</h2>
+      <div class="card-grid">
+        <article><h3>Used Tires</h3><p>Availability requests for cars, SUVs, and trucks. Inventory details are pending business confirmation.</p></article>
+        <article><h3>Tire Size Matching</h3><p>Share your tire size or vehicle information so the team can review compatible options.</p></article>
+        <article><h3>Appointment Requests</h3><p>Preferred visit dates are captured now, with calendar and SMS integrations reserved for a later phase.</p></article>
+      </div>
+    </section>
+
+    <section class="section muted">
+      <p class="eyebrow">How It Works</p>
+      <h2>A simple request-to-follow-up flow.</h2>
+      <ol class="steps">
+        <li><strong>Submit tire details.</strong><span>Tell us your vehicle, tire size, quantity, and contact preference.</span></li>
+        <li><strong>Availability review.</strong><span>Chamos Tire Co checks options and prepares next steps.</span></li>
+        <li><strong>Quote and appointment.</strong><span>The team follows up with availability, price, and appointment information.</span></li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Why Choose Chamos Tire Co</p>
+      <h2>Built for practical tire shoppers.</h2>
+      <div class="split">
+        <p>This initial website is structured to help local customers request tire availability quickly. Final business claims, reviews, certifications, and operating details will be added only after confirmation from Chamos Tire Co.</p>
+        <ul class="check-list">
+          <li>Mobile-first lead capture.</li>
+          <li>Structured FBOS workflow for follow-up.</li>
+          <li>Prepared for email, Turnstile, R2 uploads, SMS, WhatsApp, and appointments.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section muted">
+      <p class="eyebrow">Service Area</p>
+      <h2>Apex and surrounding communities.</h2>
+      <p>Local SEO is prepared for Apex, North Carolina, with surrounding-area references for Cary, Raleigh, Holly Springs, and nearby communities. Exact service-area language should be confirmed by the business.</p>
+    </section>
+
+    <section class="section request-section" id="request">
+      <div>
+        <p class="eyebrow">Tire Availability Request</p>
+        <h2>Find Your Tire</h2>
+        <p>Submit your tire details and preferred contact method. This form creates a Chamos Tires FBOS action for availability review.</p>
+      </div>
+      <LeadForm />
+    </section>
+
+    <section class="section" id="faq">
+      <p class="eyebrow">Frequently Asked Questions</p>
+      <h2>Common questions.</h2>
+      <div class="faq-list">
+        <details><summary>Do you list prices online?</summary><p>Pricing is pending business confirmation. This first version captures requests so the team can respond with accurate availability and next steps.</p></details>
+        <details><summary>Can I upload a tire photo?</summary><p>Photo uploads are planned for a future phase using Cloudflare R2. The current form is ready for that expansion.</p></details>
+        <details><summary>Do you offer installation?</summary><p>Installation details are not yet confirmed and should not be assumed until the business provides official information.</p></details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <strong>{businessName}</strong>
+    <p>Phone: {businessPhone}</p>
+    <p>Email: {businessEmail}</p>
+    <p>Address, hours, prices, payment methods, and installation information pending confirmation.</p>
+    <a href="/privacy">Privacy</a>
+  </footer>
 </Layout>

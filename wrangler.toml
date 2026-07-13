@@ -1,0 +1,16 @@
+name = "chamos-tires"
+compatibility_date = "2026-07-13"
+pages_build_output_dir = "dist"
+
+[vars]
+PUBLIC_BUSINESS_NAME = "Chamos Tire Co"
+
+[[kv_namespaces]]
+binding = "CHAMOS_TIRES_KV"
+id = "REPLACE_WITH_PRODUCTION_KV_NAMESPACE_ID"
+preview_id = "REPLACE_WITH_PREVIEW_KV_NAMESPACE_ID"
+
+# Reserved for future tire/photo uploads. Do not bind until the R2 bucket exists.
+# [[r2_buckets]]
+# binding = "CHAMOS_TIRES_UPLOADS"
+# bucket_name = "chamos-tires-uploads"
