@@ -3,36 +3,46 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
 ---
 
 <form class="lead-form" id="lead-form" method="post" action="/api/leads" novalidate>
-  <div class="form-grid">
-    <label for="customerName">Customer name</label>
-    <input id="customerName" name="customerName" autocomplete="name" maxlength="120" required aria-describedby="form-status" />
-    <label for="phone">Phone number</label>
-    <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="32" required aria-describedby="form-status" />
-    <label for="email">Email address</label>
-    <input id="email" name="email" type="email" autocomplete="email" maxlength="254" aria-describedby="form-status" />
-    <label for="vehicleYear">Vehicle year</label>
-    <input id="vehicleYear" name="vehicleYear" inputmode="numeric" autocomplete="off" maxlength="12" required aria-describedby="form-status" />
-    <label for="vehicleMake">Vehicle make</label>
-    <input id="vehicleMake" name="vehicleMake" autocomplete="off" maxlength="80" required aria-describedby="form-status" />
-    <label for="vehicleModel">Vehicle model</label>
-    <input id="vehicleModel" name="vehicleModel" autocomplete="off" maxlength="80" required aria-describedby="form-status" />
-    <label for="tireSize">Tire size</label>
-    <input id="tireSize" name="tireSize" placeholder="Example: 225/65R17" autocomplete="off" maxlength="40" required aria-describedby="tireSizeHelp form-status" />
-    <p class="field-help" id="tireSizeHelp">You can find this on the tire sidewall.</p>
-    <label for="tiresNeeded">Number of tires needed</label>
-    <select id="tiresNeeded" name="tiresNeeded" required aria-describedby="form-status"><option value="">Select</option><option value="1">1 tire</option><option value="2">2 tires</option><option value="3">3 tires</option><option value="4">4 tires</option></select>
-    <label for="preferredContactMethod">Preferred contact method</label>
-    <select id="preferredContactMethod" name="preferredContactMethod" required aria-describedby="form-status"><option value="">Select</option><option value="phone">Phone call</option><option value="text">Text message</option><option value="email">Email</option></select>
-    <label for="preferredVisitDate">Preferred visit date</label>
-    <input id="preferredVisitDate" name="preferredVisitDate" type="date" aria-describedby="form-status" />
-  </div>
-  <label for="additionalNotes">Additional notes</label>
-  <textarea id="additionalNotes" name="additionalNotes" rows="4" maxlength="1200" placeholder="Share anything helpful, such as brand preference, urgency, or tire condition."></textarea>
+  <fieldset class="form-section">
+    <legend>Contact information</legend>
+    <div class="form-grid">
+      <div class="field"><label for="customerName">Customer name</label><input id="customerName" name="customerName" autocomplete="name" maxlength="120" required aria-describedby="customerName-error form-status" /><p class="field-error" id="customerName-error"></p></div>
+      <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="32" required aria-describedby="phone-error form-status" /><p class="field-error" id="phone-error"></p></div>
+      <div class="field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" aria-describedby="email-error form-status" /><p class="field-error" id="email-error"></p></div>
+    </div>
+  </fieldset>
+  <fieldset class="form-section">
+    <legend>Vehicle information</legend>
+    <div class="form-grid">
+      <div class="field"><label for="vehicleYear">Vehicle year</label><input id="vehicleYear" name="vehicleYear" inputmode="numeric" autocomplete="off" maxlength="12" required aria-describedby="vehicleYear-error form-status" /><p class="field-error" id="vehicleYear-error"></p></div>
+      <div class="field"><label for="vehicleMake">Vehicle make</label><input id="vehicleMake" name="vehicleMake" autocomplete="off" maxlength="80" required aria-describedby="vehicleMake-error form-status" /><p class="field-error" id="vehicleMake-error"></p></div>
+      <div class="field"><label for="vehicleModel">Vehicle model</label><input id="vehicleModel" name="vehicleModel" autocomplete="off" maxlength="80" required aria-describedby="vehicleModel-error form-status" /><p class="field-error" id="vehicleModel-error"></p></div>
+    </div>
+  </fieldset>
+  <fieldset class="form-section">
+    <legend>Tire request</legend>
+    <div class="form-grid">
+      <div class="field"><label for="tireSize">Tire size</label><input id="tireSize" name="tireSize" placeholder="Example: 225/65R17" autocomplete="off" maxlength="40" required aria-describedby="tireSizeHelp tireSize-error form-status" /><p class="field-help" id="tireSizeHelp">You can find this on the tire sidewall.</p><p class="field-error" id="tireSize-error"></p></div>
+      <div class="field"><label for="tiresNeeded">Number of tires needed</label><select id="tiresNeeded" name="tiresNeeded" required aria-describedby="tiresNeeded-error form-status"><option value="">Select</option><option value="1">1 tire</option><option value="2">2 tires</option><option value="3">3 tires</option><option value="4">4 tires</option></select><p class="field-error" id="tiresNeeded-error"></p></div>
+    </div>
+  </fieldset>
+  <fieldset class="form-section">
+    <legend>Contact and visit preferences</legend>
+    <div class="form-grid">
+      <div class="field"><label for="preferredContactMethod">Preferred contact method</label><select id="preferredContactMethod" name="preferredContactMethod" required aria-describedby="preferredContactMethod-error form-status"><option value="">Select</option><option value="phone">Phone call</option><option value="text">Text message</option><option value="email">Email</option></select><p class="field-error" id="preferredContactMethod-error"></p></div>
+      <div class="field"><label for="preferredVisitDate">Preferred visit date</label><input id="preferredVisitDate" name="preferredVisitDate" type="date" aria-describedby="form-status" /></div>
+    </div>
+  </fieldset>
+  <fieldset class="form-section">
+    <legend>Additional notes and consent</legend>
+    <div class="field"><label for="additionalNotes">Additional notes</label><textarea id="additionalNotes" name="additionalNotes" rows="4" maxlength="1200" placeholder="Share anything helpful, such as brand preference, urgency, or tire condition."></textarea></div>
+  </fieldset>
   <input type="hidden" name="leadSource" value="chamos-tires-landing" />
   <input type="hidden" name="turnstileToken" id="turnstileToken" value="" />
   {turnstileSiteKey && <div class="turnstile-placeholder" data-sitekey={turnstileSiteKey}>Turnstile will render here when enabled.</div>}
   <label class="consent" for="consentToContact"><input id="consentToContact" name="consentToContact" type="checkbox" required />I agree that Chamos Tire Co may contact me about tire availability, pricing, and next steps.</label>
-  <button class="button button-primary" type="submit">Submit Tire Request</button>
+  <p class="field-error" id="consentToContact-error"></p>
+  <button class="button button-primary submit-button" type="submit">Submit Tire Request</button>
   <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
 </form>
 
@@ -47,10 +57,26 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
     const formData = new FormData(form);
     const requiredFields = ['customerName', 'phone', 'vehicleYear', 'vehicleMake', 'vehicleModel', 'tireSize', 'tiresNeeded', 'preferredContactMethod'];
     const missing = requiredFields.filter((field) => !String(formData.get(field) || '').trim());
+    const submitButton = form.querySelector<HTMLButtonElement>('.submit-button');
+    form.querySelectorAll('.field-error').forEach((error) => { error.textContent = ''; });
+    form.querySelectorAll('[aria-invalid="true"]').forEach((field) => field.removeAttribute('aria-invalid'));
 
     if (missing.length || formData.get('consentToContact') !== 'on') {
+      missing.forEach((field) => {
+        const input = form.querySelector<HTMLElement>(`[name="${field}"]`);
+        const error = document.getElementById(`${field}-error`);
+        input?.setAttribute('aria-invalid', 'true');
+        if (error) error.textContent = 'This field is required.';
+      });
+      if (formData.get('consentToContact') !== 'on') {
+        const error = document.getElementById('consentToContact-error');
+        if (error) error.textContent = 'This field is required.';
+      }
       status.textContent = 'Please complete the required fields and consent checkbox.';
       status.dataset.state = 'error';
+      const firstInvalid = form.querySelector<HTMLElement>('[aria-invalid="true"], #consentToContact');
+      firstInvalid?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      firstInvalid?.focus();
       return;
     }
 
@@ -61,6 +87,11 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
     payload.consentToContact = String(formData.get('consentToContact') === 'on');
     status.textContent = 'Sending your request...';
     status.dataset.state = 'pending';
+    form.dataset.state = 'loading';
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending your request...';
+    }
 
     try {
       const response = await fetch('/api/leads', {
@@ -72,14 +103,22 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
       if (!response.ok || !result.success) {
         status.textContent = result.error || 'Unable to send your request. Please try again.';
         status.dataset.state = 'error';
+        form.dataset.state = 'error';
         return;
       }
       form.reset();
       status.textContent = 'Request received. Chamos Tire Co will follow up with availability and next steps.';
       status.dataset.state = 'success';
+      form.dataset.state = 'success';
     } catch {
       status.textContent = 'Unable to send your request right now. Please try again.';
       status.dataset.state = 'error';
+      form.dataset.state = 'error';
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Submit Tire Request';
+      }
     }
   });
 </script>

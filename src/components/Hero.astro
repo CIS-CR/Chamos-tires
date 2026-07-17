@@ -1,0 +1,39 @@
+---
+import { getPublicPhoneHref, getPublicSmsHref } from '../config/business';
+
+const phoneHref = getPublicPhoneHref();
+const smsHref = getPublicSmsHref();
+---
+
+<section class="hero section-reveal" data-reveal>
+  <div class="hero-copy">
+    <p class="eyebrow">Used Tires in Apex, NC</p>
+    <h1>Affordable Used Tires in Apex, NC</h1>
+    <p class="hero-text">Looking for affordable used tires near you? Chamos Tire Co helps drivers in Apex and nearby Triangle communities find inspected used tires for cars, SUVs, trucks, and work vehicles.</p>
+    <div class="hero-actions" aria-label="Primary tire request actions">
+      <a class="button button-primary" href="#request">Find Your Tire</a>
+      {phoneHref ? (
+        <>
+          <a class="button button-secondary" href={phoneHref}>Call or Text Us</a>
+          <a class="visually-hidden" href={smsHref}>Text Chamos Tire Co</a>
+        </>
+      ) : (
+        <a class="button button-secondary" href="#request" aria-describedby="phone-pending">Call or Text Us</a>
+      )}
+    </div>
+    <p class="placeholder-note" id="phone-pending">Phone, address, hours, prices, payment methods, and installation details are pending confirmation.</p>
+  </div>
+  <figure class="hero-media">
+    <div class="hero-media-frame">
+      <img
+        src="/images/chamos-tires-whatsapp.svg"
+        width="600"
+        height="315"
+        alt="Used tires for cars, SUVs, and trucks"
+        decoding="async"
+        fetchpriority="high"
+      />
+    </div>
+    <figcaption>Chamos Tire Co availability requests for Apex and nearby Triangle communities.</figcaption>
+  </figure>
+</section>

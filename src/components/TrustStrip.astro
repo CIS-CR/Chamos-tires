@@ -1,0 +1,13 @@
+---
+import Icon from './Icon.astro';
+import { trustItems } from '../content/home';
+---
+
+<section class="trust-strip" aria-label="Why drivers choose Chamos Tire Co" data-reveal>
+  {trustItems.map((item) => (
+    <div class="trust-item">
+      <Icon name="check" />
+      <span>{item}</span>
+    </div>
+  ))}
+</section>

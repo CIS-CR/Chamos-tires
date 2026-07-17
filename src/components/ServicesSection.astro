@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+import { serviceCards } from '../content/home';
+---
+
+<section class="section" id="services" data-reveal>
+  <p class="eyebrow">Products and Services</p>
+  <h2>Find the Right Used Tire for Your Vehicle</h2>
+  <p>Send your tire size or vehicle information and Chamos Tire Co can review availability for the right fit. This request flow is designed for drivers who need practical options before coordinating a visit or appointment.</p>
+  <div class="service-grid">
+    {serviceCards.map((card) => (
+      <article class="service-card" data-vehicle-suggestion={card.vehicleType}>
+        <div class="service-icon"><Icon name={card.icon} /></div>
+        <h3>{card.title}</h3>
+        <p>{card.text}</p>
+        <a class="card-link" href="#request" data-scroll-request>
+          <span>Find Your Tire</span>
+          <Icon name="arrow" />
+        </a>
+      </article>
+    ))}
+  </div>
+</section>

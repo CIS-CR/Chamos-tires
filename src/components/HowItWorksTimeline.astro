@@ -1,0 +1,17 @@
+---
+import { processSteps } from '../content/home';
+---
+
+<section class="section dark-section" id="how-it-works" data-reveal>
+  <p class="eyebrow">How It Works</p>
+  <h2>How to Request Tire Availability</h2>
+  <ol class="steps timeline" data-timeline>
+    {processSteps.map((step, index) => (
+      <li>
+        <span class="step-number">{String(index + 1).padStart(2, '0')}</span>
+        <strong>{step.title}</strong>
+        <span>{step.text}</span>
+      </li>
+    ))}
+  </ol>
+</section>

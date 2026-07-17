@@ -1,0 +1,119 @@
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const body = document.body;
+  const header = document.querySelector('[data-site-header]');
+  const menu = document.querySelector('[data-site-menu]');
+  const overlay = document.querySelector('[data-menu-overlay]');
+  const toggle = document.querySelector('[data-menu-toggle]');
+  const closeButton = document.querySelector('[data-menu-close]');
+  const mobileCta = document.querySelector('[data-mobile-cta]');
+  let lastFocusedElement: Element | null = null;
+
+  const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  function setMenu(open: boolean) {
+    if (!menu || !toggle || !overlay) return;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+    menu.setAttribute('aria-hidden', String(!open));
+    menu.classList.toggle('is-open', open);
+    toggle.classList.toggle('is-open', open);
+    if (overlay instanceof HTMLElement) overlay.hidden = !open;
+    overlay.classList.toggle('is-open', open);
+    body.classList.toggle('menu-open', open);
+    mobileCta?.classList.toggle('is-hidden', open);
+
+    if (open) {
+      lastFocusedElement = document.activeElement;
+      const focusable = menu.querySelectorAll<HTMLElement>(focusableSelector);
+      focusable[0]?.focus();
+    } else if (lastFocusedElement instanceof HTMLElement) {
+      lastFocusedElement.focus();
+    }
+  }
+
+  toggle?.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+  closeButton?.addEventListener('click', () => setMenu(false));
+  overlay?.addEventListener('click', () => setMenu(false));
+  menu?.querySelectorAll('a[href]').forEach((link) => link.addEventListener('click', () => setMenu(false)));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setMenu(false);
+    if (event.key !== 'Tab' || !menu?.classList.contains('is-open')) return;
+    const focusable = Array.from(menu.querySelectorAll<HTMLElement>(focusableSelector));
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  function updateScrolledState() {
+    const scrolled = window.scrollY > 24;
+    header?.classList.toggle('is-scrolled', scrolled);
+    mobileCta?.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.65);
+  }
+
+  updateScrolledState();
+  window.addEventListener('scroll', updateScrolledState, { passive: true });
+
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14 });
+    document.querySelectorAll('[data-reveal]').forEach((element) => revealObserver.observe(element));
+
+    const timelineObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => entry.target.classList.toggle('is-active', entry.isIntersecting));
+    }, { threshold: 0.32 });
+    document.querySelectorAll('[data-timeline]').forEach((element) => timelineObserver.observe(element));
+  } else {
+    document.querySelectorAll('[data-reveal]').forEach((element) => element.classList.add('is-visible'));
+  }
+
+  document.querySelectorAll('[data-faq-trigger]').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const panelId = trigger.getAttribute('aria-controls');
+      if (!panelId) return;
+      const panel = document.getElementById(panelId);
+      const expanded = trigger.getAttribute('aria-expanded') === 'true';
+      trigger.setAttribute('aria-expanded', String(!expanded));
+      const icon = trigger.querySelector('.faq-icon');
+      if (icon) icon.textContent = expanded ? '+' : '-';
+      if (panel) panel.hidden = expanded;
+    });
+  });
+
+  document.querySelectorAll('[data-disclosure]').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const panelId = trigger.getAttribute('aria-controls');
+      if (!panelId) return;
+      const panel = document.getElementById(panelId);
+      const expanded = trigger.getAttribute('aria-expanded') === 'true';
+      trigger.setAttribute('aria-expanded', String(!expanded));
+      if (panel) panel.hidden = expanded;
+    });
+  });
+
+  document.querySelectorAll('[data-scroll-request]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const request = document.getElementById('request');
+      request?.classList.add('is-highlighted');
+      window.setTimeout(() => request?.classList.remove('is-highlighted'), 1400);
+    });
+  });
+
+  document.querySelector('[data-focus-tire-size]')?.addEventListener('click', () => {
+    window.setTimeout(() => document.getElementById('tireSize')?.focus(), 350);
+  });
+</script>

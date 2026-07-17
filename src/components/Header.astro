@@ -1,0 +1,46 @@
+---
+import { business, getPublicPhoneHref, getPublicSmsHref } from '../config/business';
+import { navItems } from '../content/home';
+
+const phoneHref = getPublicPhoneHref();
+const smsHref = getPublicSmsHref();
+---
+
+<header class="site-header" data-site-header>
+  <a class="brand" href="/" aria-label={business.publicName}>
+    <img class="brand-logo" src={business.logoPath} width="168" height="168" alt="" decoding="async" />
+    <span>{business.publicName}</span>
+  </a>
+  <div class="header-actions">
+    <a class="button button-primary header-cta" href="#request">Find Your Tire</a>
+    <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<div class="menu-overlay" data-menu-overlay hidden></div>
+<aside class="site-menu" id="site-menu" aria-label="Site navigation" aria-hidden="true" data-site-menu>
+  <div class="menu-panel">
+    <div class="menu-panel-header">
+      <span>{business.publicName}</span>
+      <button class="menu-close" type="button" aria-label="Close navigation menu" data-menu-close>Close</button>
+    </div>
+    <nav class="menu-nav" aria-label="Primary">
+      {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <div class="menu-actions">
+      <a class="button button-primary" href="#request">Find Your Tire</a>
+      {phoneHref ? (
+        <>
+          <a class="button button-secondary" href={phoneHref}>Call or Text Us</a>
+          <a class="visually-hidden" href={smsHref}>Text Chamos Tire Co</a>
+        </>
+      ) : (
+        <a class="button button-secondary" href="#request" aria-describedby="phone-pending">Call or Text Us</a>
+      )}
+    </div>
+  </div>
+</aside>

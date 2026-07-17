@@ -1,0 +1,14 @@
+---
+import { getPublicPhoneHref } from '../config/business';
+
+const phoneHref = getPublicPhoneHref();
+---
+
+<div class="mobile-sticky-cta" data-mobile-cta>
+  {phoneHref ? (
+    <a class="button button-secondary" href={phoneHref}>Call or Text Us</a>
+  ) : (
+    <a class="button button-secondary" href="#request" aria-describedby="phone-pending">Call or Text Us</a>
+  )}
+  <a class="button button-primary" href="#request">Find Your Tire</a>
+</div>

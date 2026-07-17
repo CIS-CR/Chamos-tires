@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+import Nap from './Nap.astro';
+import { serviceAreaChips } from '../content/home';
+---
+
+<section class="section muted service-area-section" id="service-area" data-reveal>
+  <div class="service-area-copy">
+    <p class="eyebrow">Service Area</p>
+    <h2>Used Tires Near Apex and Surrounding Communities</h2>
+    <p>Chamos Tire Co is focused on tire availability in Apex and nearby Triangle communities, including Holly Springs, Fuquay-Varina, Cary, Raleigh, and surrounding areas in North Carolina.</p>
+    <p>This does not imply separate locations in each city. Public address, directions, and Google Business Profile links will be added only after confirmation.</p>
+    <Nap compact />
+    <div class="local-links" aria-label="Future local landing page plan">
+      <span>Future local pages planned:</span>
+      {serviceAreaChips.map((chip) => <span>{chip}</span>)}
+    </div>
+  </div>
+  <div class="service-map" aria-hidden="true">
+    <Icon name="pin" />
+    <span>Apex</span>
+    <span>Holly Springs</span>
+    <span>Fuquay-Varina</span>
+    <span>Cary</span>
+    <span>Raleigh</span>
+  </div>
+</section>

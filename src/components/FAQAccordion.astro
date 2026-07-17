@@ -1,0 +1,26 @@
+---
+import { faqItems } from '../content/home';
+---
+
+<section class="section faq-section" id="faq" data-reveal>
+  <p class="eyebrow">FAQ</p>
+  <h2>Frequently Asked Questions About Used Tires</h2>
+  <div class="faq-list" data-faq-list>
+    {faqItems.map((item, index) => {
+      const id = `faq-panel-${index + 1}`;
+      return (
+        <article class="faq-item">
+          <h3>
+            <button type="button" aria-expanded="false" aria-controls={id} data-faq-trigger>
+              <span>{item.question}</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+          </h3>
+          <div class="faq-panel" id={id} hidden>
+            <p>{item.answer}</p>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+</section>

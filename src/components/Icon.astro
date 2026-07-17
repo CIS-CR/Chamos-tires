@@ -1,0 +1,22 @@
+---
+type IconName = 'sedan' | 'suv' | 'truck' | 'set' | 'check' | 'arrow' | 'pin';
+interface Props {
+  name: IconName;
+  class?: string;
+}
+
+const { name, class: className = '' } = Astro.props;
+const icons = {
+  sedan: 'M6 25h4l3-7h22l5 7h4M11 25h30M12 25v6m28-6v6M14 31a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm24 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM15 18l4-6h13l5 6',
+  suv: 'M6 26h5l4-9h17l8 9h4M12 26h28M14 32a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm24 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM18 17v-5h11l3 5',
+  truck: 'M5 17h23v16H5V17Zm23 6h8l6 6v4H28V23ZM12 33a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm24 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z',
+  set: 'M18 8a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 6v8m-4-4h8M34 20a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 6v8m-4-4h8',
+  check: 'M10 24l8 8 18-20',
+  arrow: 'M12 24h24m-8-8 8 8-8 8',
+  pin: 'M24 42s13-11 13-23a13 13 0 0 0-26 0c0 12 13 23 13 23Zm0-18a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z',
+} satisfies Record<IconName, string>;
+---
+
+<svg class:list={['icon', className]} viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <path d={icons[name]} fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
