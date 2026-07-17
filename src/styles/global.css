@@ -793,13 +793,6 @@ h3 {
   display: block;
 }
 
-.payment-attribution {
-  margin: 0;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.45;
-}
-
 .payment-methods-compact {
   padding: 16px;
 }
