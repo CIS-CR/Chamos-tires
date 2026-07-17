@@ -25,7 +25,7 @@ const smsHref = getPublicSmsHref();
 >
   <header class="site-header">
     <a class="brand" href="/" aria-label={business.publicName}>
-      <span class="brand-mark">CT</span>
+      <img class="brand-logo" src={business.logoPath} width="44" height="44" alt="" decoding="async" />
       <span>{business.publicName}</span>
     </a>
     <nav aria-label="Primary">
@@ -59,14 +59,14 @@ const smsHref = getPublicSmsHref();
       </div>
       <figure class="hero-media">
         <img
-          src="/images/chamos-tires-social-placeholder.svg"
-          width="1200"
-          height="630"
+          src="/images/chamos-tires-whatsapp.svg"
+          width="600"
+          height="315"
           alt="Used tires for cars, SUVs, and trucks"
           decoding="async"
           fetchpriority="high"
         />
-        <figcaption>Placeholder visual. Replace with real Chamos Tire Co inventory photography.</figcaption>
+        <figcaption>Chamos Tire Co availability requests for Apex and nearby Triangle communities.</figcaption>
       </figure>
     </section>
 
@@ -150,6 +150,10 @@ const smsHref = getPublicSmsHref();
   </main>
 
   <footer class="site-footer">
+    <div class="footer-brand">
+      <img class="footer-logo" src={business.logoPath} width="32" height="32" alt="" loading="lazy" decoding="async" />
+      <span>{business.publicName}</span>
+    </div>
     <Nap />
     <p>Business address, hours, Google Business Profile URL, payment methods, installation details, and prices are pending confirmation.</p>
     <a href="/privacy">Privacy</a>

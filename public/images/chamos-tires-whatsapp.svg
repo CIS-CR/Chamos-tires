@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="315" viewBox="0 0 600 315" role="img" aria-label="Chamos Tire Co used tires in Apex, NC">
+  <rect width="600" height="315" fill="#111827"/>
+  <path d="M544 315h56V150z" fill="#172033"/>
+  <circle cx="145" cy="158" r="82" fill="none" stroke="#facc15" stroke-width="24"/>
+  <circle cx="145" cy="158" r="28" fill="#f9fafb"/>
+  <path d="M145 72v32M145 212v32M59 158h32M199 158h32" stroke="#f9fafb" stroke-width="8" stroke-linecap="round"/>
+  <text x="278" y="138" fill="#f9fafb" font-family="Arial, sans-serif" font-size="42" font-weight="700">Chamos Tire Co</text>
+  <text x="281" y="185" fill="#facc15" font-family="Arial, sans-serif" font-size="24" font-weight="700">Used Tires in Apex, NC</text>
+  <text x="282" y="221" fill="#d1d5db" font-family="Arial, sans-serif" font-size="18">Cars, SUVs, trucks, and work vehicles</text>
+</svg>
