@@ -6,6 +6,7 @@ import HowItWorksTimeline from '../components/HowItWorksTimeline.astro';
 import Nap from '../components/Nap.astro';
 import LeadForm from '../components/LeadForm.astro';
 import Layout from '../layouts/Layout.astro';
+import PaymentMethods from '../components/PaymentMethods.astro';
 import ServiceAreaSection from '../components/ServiceAreaSection.astro';
 import ServicesSection from '../components/ServicesSection.astro';
 import SiteInteractions from '../components/SiteInteractions.astro';
@@ -62,6 +63,7 @@ const structuredData = createTireShopJsonLd(canonicalUrl, socialImageUrl);
         <h2>Find Your Tire</h2>
         <p>Request the right tire size for your car, SUV, truck, or work vehicle. The form keeps the main page indexable while sending lead data to the independent Chamos Tires FBOS workflow.</p>
         <TireSizeHelper />
+        <PaymentMethods compact />
       </div>
       <LeadForm />
     </section>
@@ -75,7 +77,8 @@ const structuredData = createTireShopJsonLd(canonicalUrl, socialImageUrl);
       <span>{business.publicName}</span>
     </div>
     <Nap />
-    <p>Business address, hours, Google Business Profile URL, payment methods, installation details, and prices are pending confirmation.</p>
+    <PaymentMethods compact />
+    <p>Business address, hours, Google Business Profile URL, installation details, and prices are pending confirmation.</p>
     <a href="/privacy">Privacy</a>
   </footer>
   <StickyMobileCTA />

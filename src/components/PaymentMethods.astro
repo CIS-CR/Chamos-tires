@@ -1,0 +1,33 @@
+---
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+
+const paymentMethods = [
+  { name: 'Cash', src: '/images/payments/cash.svg' },
+  { name: 'Visa', src: '/images/payments/visa.svg' },
+  { name: 'Mastercard', src: '/images/payments/mastercard.svg' },
+  { name: 'American Express', src: '/images/payments/american-express.svg' },
+  { name: 'Discover', src: '/images/payments/discover.svg' },
+  { name: 'Apple Pay', src: '/images/payments/apple-pay.svg' },
+  { name: 'Google Pay', src: '/images/payments/google-pay.svg' },
+  { name: 'PayPal', src: '/images/payments/paypal.svg' },
+];
+---
+
+<section class:list={['payment-methods', { 'payment-methods-compact': compact }]} aria-label="Payment methods accepted">
+  <div class="payment-methods-copy">
+    <p class="eyebrow">Payment Methods</p>
+    <h2>Payment methods accepted</h2>
+  </div>
+  <ul class="payment-logo-list" aria-label="Accepted payment methods">
+    {paymentMethods.map((method) => (
+      <li>
+        <img src={method.src} alt={method.name} loading="lazy" decoding="async" />
+      </li>
+    ))}
+  </ul>
+  <p class="payment-attribution">Payment logos from Datatrans payment-logos, CC BY-SA 4.0.</p>
+</section>

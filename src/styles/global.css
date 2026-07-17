@@ -740,6 +740,70 @@ h3 {
   font-size: 13px;
 }
 
+.payment-methods {
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+  padding: 18px;
+  border: 1px solid rgba(20, 17, 15, .12);
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+.payment-methods-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.payment-methods .eyebrow,
+.payment-methods h2 {
+  margin: 0;
+}
+
+.payment-methods h2 {
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  line-height: 1.12;
+}
+
+.payment-logo-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.payment-logo-list li {
+  min-width: 72px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 8px 10px;
+  border: 1px solid rgba(20, 17, 15, .12);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(20, 17, 15, .07);
+}
+
+.payment-logo-list img {
+  max-width: 58px;
+  max-height: 28px;
+  display: block;
+}
+
+.payment-attribution {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.payment-methods-compact {
+  padding: 16px;
+}
+
 .lead-form {
   display: grid;
   gap: 20px;
