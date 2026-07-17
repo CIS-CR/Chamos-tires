@@ -59,7 +59,7 @@ export const business: BusinessConfig = {
     env.PUBLIC_INSTAGRAM_URL || '',
   ].filter(Boolean),
   mainDomain: env.PUBLIC_SITE_URL || 'https://chamos-tires.pages.dev',
-  logoPath: '/logo.svg',
+  logoPath: '/chamos-tires-icon.svg',
   defaultSocialImage: env.PUBLIC_SOCIAL_IMAGE || '/images/chamos-tires-whatsapp.svg',
   customersVisitAddress: env.PUBLIC_CUSTOMERS_VISIT_ADDRESS === 'true',
   installationOffered: env.PUBLIC_INSTALLATION_OFFERED
