@@ -105,8 +105,8 @@ a { color: inherit; }
 }
 
 .brand-logo {
-  width: clamp(86px, 8.5vw, 132px);
-  height: clamp(86px, 8.5vw, 132px);
+  width: clamp(86px, 7.25vw, 112px);
+  height: clamp(86px, 7.25vw, 112px);
 }
 
 .site-header.is-scrolled .brand-logo {
