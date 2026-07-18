@@ -350,6 +350,44 @@ h3 {
   margin: 2rem 0 18px;
 }
 
+.contact-menu {
+  position: relative;
+}
+
+.contact-menu summary {
+  list-style: none;
+}
+
+.contact-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.contact-menu-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 5;
+  display: grid;
+  min-width: 220px;
+  overflow: hidden;
+  border: 1px solid rgba(20, 17, 15, .14);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.contact-menu-panel a {
+  padding: 13px 16px;
+  color: var(--charcoal);
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.contact-menu-panel a:hover,
+.contact-menu-panel a:focus-visible {
+  background: rgba(249, 115, 22, .1);
+}
+
 .placeholder-note,
 .form-status,
 .site-footer,
@@ -990,7 +1028,7 @@ textarea { resize: vertical; }
   left: 12px;
   z-index: 45;
   display: none;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: .72fr .72fr 1.2fr;
   gap: 10px;
   padding: 10px;
   border: 1px solid rgba(20, 17, 15, .12);

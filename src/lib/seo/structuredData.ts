@@ -32,7 +32,7 @@ export const createTireShopJsonLd = (url: string, imageUrl: string): Record<stri
     url,
     logo: new URL(business.logoPath, business.mainDomain).toString(),
     image: imageUrl,
-    telephone: business.phone,
+    telephone: business.phoneSchema,
     email: business.email,
     address,
     geo: business.latitude && business.longitude

@@ -1,5 +1,5 @@
 ---
-import { getPublicPhoneHref, getPublicSmsHref } from '../config/business';
+import { business, getPublicPhoneHref, getPublicSmsHref } from '../config/business';
 
 const phoneHref = getPublicPhoneHref();
 const smsHref = getPublicSmsHref();
@@ -12,14 +12,13 @@ const smsHref = getPublicSmsHref();
     <p class="hero-text">Looking for affordable used tires near you? Chamos Tire Co helps drivers in Apex and nearby Triangle communities find inspected used tires for cars, SUVs, trucks, and work vehicles.</p>
     <div class="hero-actions" aria-label="Primary tire request actions">
       <a class="button button-primary" href="#request">Find Your Tire</a>
-      {phoneHref ? (
-        <>
-          <a class="button button-secondary" href={phoneHref}>Call or Text Us</a>
-          <a class="visually-hidden" href={smsHref}>Text Chamos Tire Co</a>
-        </>
-      ) : (
-        <a class="button button-secondary" href="#request">Call or Text Us</a>
-      )}
+      <details class="contact-menu">
+        <summary class="button button-secondary">Call or Text Us</summary>
+        <div class="contact-menu-panel">
+          <a href={phoneHref}>Call {business.phone}</a>
+          <a href={smsHref}>Text {business.phone}</a>
+        </div>
+      </details>
     </div>
   </div>
   <figure class="hero-media">

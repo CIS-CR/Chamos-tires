@@ -1,4 +1,4 @@
-export type PreferredContactMethod = 'phone' | 'text' | 'email';
+export type PreferredContactMethod = 'phone_call' | 'text_message' | 'email';
 
 export interface LeadRequest {
   customerName: string;

@@ -1,5 +1,6 @@
 import type { FbosAction } from '../../types/fbos';
 import type { Lead } from '../../types/leads';
+import { business } from '../../config/business';
 import { customerConfirmationEmail, internalNotificationEmail } from './templates';
 
 interface EmailEnv {
@@ -10,7 +11,7 @@ interface EmailEnv {
 
 const sendResendEmail = async (
   env: EmailEnv,
-  payload: { to: string; subject: string; html: string; text: string },
+  payload: { to: string; subject: string; html: string; text: string; replyTo?: string },
 ): Promise<void> => {
   if (!env.RESEND_API_KEY || !env.RESEND_FROM_EMAIL) {
     throw new Error('Resend is not configured.');
@@ -24,7 +25,11 @@ const sendResendEmail = async (
     },
     body: JSON.stringify({
       from: env.RESEND_FROM_EMAIL,
-      ...payload,
+      to: payload.to,
+      subject: payload.subject,
+      html: payload.html,
+      text: payload.text,
+      ...(payload.replyTo ? { reply_to: payload.replyTo } : {}),
     }),
   });
 
@@ -36,13 +41,17 @@ export const notifyLeadCreated = async (
   lead: Lead,
   action: FbosAction,
 ): Promise<{ status: FbosAction['emailNotificationStatus']; error?: string }> => {
-  if (!env.RESEND_API_KEY || !env.RESEND_FROM_EMAIL || !env.RESEND_NOTIFICATION_EMAIL) {
+  if (!env.RESEND_API_KEY || !env.RESEND_FROM_EMAIL || !business.email) {
     return { status: 'skipped' };
   }
 
   try {
     const internal = internalNotificationEmail(lead, action);
-    await sendResendEmail(env, { to: env.RESEND_NOTIFICATION_EMAIL, ...internal });
+    await sendResendEmail(env, {
+      to: business.email,
+      ...internal,
+      ...(lead.email ? { replyTo: lead.email } : {}),
+    });
 
     if (lead.email) {
       const customer = customerConfirmationEmail(lead);

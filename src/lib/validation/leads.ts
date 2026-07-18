@@ -7,13 +7,20 @@ export interface ValidationResult {
   issues?: Record<string, string>;
 }
 
-const CONTACT_METHODS: PreferredContactMethod[] = ['phone', 'text', 'email'];
+const CONTACT_METHODS: PreferredContactMethod[] = ['phone_call', 'text_message', 'email'];
 
 const required = (value: string): boolean => value.trim().length > 0;
 
+const normalizePreferredContactMethod = (value: unknown): PreferredContactMethod => {
+  const method = sanitizeText(value, 32);
+  if (method === 'phone') return 'phone_call';
+  if (method === 'text') return 'text_message';
+  return method as PreferredContactMethod;
+};
+
 export const validateLeadRequest = (input: Record<string, unknown>): ValidationResult => {
   const tiresNeeded = Number(input.tiresNeeded);
-  const preferredContactMethod = sanitizeText(input.preferredContactMethod, 16) as PreferredContactMethod;
+  const preferredContactMethod = normalizePreferredContactMethod(input.preferredContactMethod);
   const consentToContact =
     input.consentToContact === true ||
     input.consentToContact === 'true' ||
@@ -39,7 +46,6 @@ export const validateLeadRequest = (input: Record<string, unknown>): ValidationR
   const issues: Record<string, string> = {};
 
   if (!required(data.customerName)) issues.customerName = 'Customer name is required.';
-  if (!required(data.phone)) issues.phone = 'Phone number is required.';
   if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
     issues.email = 'Email address is not valid.';
   }
@@ -52,6 +58,15 @@ export const validateLeadRequest = (input: Record<string, unknown>): ValidationR
   }
   if (!CONTACT_METHODS.includes(data.preferredContactMethod)) {
     issues.preferredContactMethod = 'Preferred contact method is required.';
+  }
+  if (data.preferredContactMethod === 'phone_call' && !required(data.phone)) {
+    issues.phone = 'Please enter a phone number so we can call you.';
+  }
+  if (data.preferredContactMethod === 'text_message' && !required(data.phone)) {
+    issues.phone = 'Please enter a phone number so we can text you.';
+  }
+  if (data.preferredContactMethod === 'email' && !required(data.email || '')) {
+    issues.email = 'Please enter an email address so we can contact you by email.';
   }
   if (!data.consentToContact) {
     issues.consentToContact = 'Consent to be contacted is required.';

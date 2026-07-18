@@ -2,6 +2,8 @@ export interface BusinessConfig {
   name: string;
   publicName: string;
   phone: string;
+  phoneE164: string;
+  phoneSchema: string;
   email: string;
   streetAddress: string;
   city: string;
@@ -27,15 +29,27 @@ export interface BusinessConfig {
   customersVisitAddress: boolean;
   installationOffered: boolean | null;
   priceRange: string;
+  preferredContactMethods: Array<{
+    value: 'phone_call' | 'text_message' | 'email';
+    label: string;
+  }>;
 }
 
 const env = import.meta.env;
+const confirmedContact = {
+  phone: '919-633-3720',
+  phoneE164: '+19196333720',
+  phoneSchema: '+1-919-633-3720',
+  email: 'chamostireco@gmail.com',
+} as const;
 
 export const business: BusinessConfig = {
   name: env.PUBLIC_BUSINESS_NAME || 'Chamos Tire Co',
   publicName: env.PUBLIC_BUSINESS_NAME || 'Chamos Tire Co',
-  phone: env.PUBLIC_BUSINESS_PHONE || '',
-  email: env.PUBLIC_BUSINESS_EMAIL || '',
+  phone: confirmedContact.phone,
+  phoneE164: confirmedContact.phoneE164,
+  phoneSchema: confirmedContact.phoneSchema,
+  email: confirmedContact.email,
   streetAddress: env.PUBLIC_BUSINESS_STREET_ADDRESS || '1005 Goodworth Dr, Unit 105',
   city: env.PUBLIC_BUSINESS_CITY || 'Apex',
   state: env.PUBLIC_BUSINESS_STATE || 'NC',
@@ -70,12 +84,20 @@ export const business: BusinessConfig = {
     ? env.PUBLIC_INSTALLATION_OFFERED === 'true'
     : null,
   priceRange: env.PUBLIC_PRICE_RANGE || '',
+  preferredContactMethods: [
+    { value: 'phone_call', label: 'Phone call' },
+    { value: 'text_message', label: 'Text message' },
+    { value: 'email', label: 'Email' },
+  ],
 };
 
 export const businessLocationLabel = [business.city, business.state].filter(Boolean).join(', ');
 
 export const getPublicPhoneHref = (): string =>
-  business.phone ? `tel:${business.phone.replace(/[^\d+]/g, '')}` : '';
+  business.phoneE164 ? `tel:${business.phoneE164}` : '';
 
 export const getPublicSmsHref = (): string =>
-  business.phone ? `sms:${business.phone.replace(/[^\d+]/g, '')}` : '';
+  business.phoneE164 ? `sms:${business.phoneE164}` : '';
+
+export const getPublicEmailHref = (): string =>
+  business.email ? `mailto:${business.email}` : '';

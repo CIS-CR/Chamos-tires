@@ -1,4 +1,6 @@
 ---
+import { business } from '../config/business';
+
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
 ---
 
@@ -7,7 +9,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
     <legend>Contact information</legend>
     <div class="form-grid">
       <div class="field"><label for="customerName">Customer name</label><input id="customerName" name="customerName" autocomplete="name" maxlength="120" required aria-describedby="customerName-error form-status" /><p class="field-error" id="customerName-error"></p></div>
-      <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="32" required aria-describedby="phone-error form-status" /><p class="field-error" id="phone-error"></p></div>
+      <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="32" aria-describedby="phone-error form-status" /><p class="field-error" id="phone-error"></p></div>
       <div class="field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" aria-describedby="email-error form-status" /><p class="field-error" id="email-error"></p></div>
     </div>
   </fieldset>
@@ -29,7 +31,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
   <fieldset class="form-section">
     <legend>Contact and visit preferences</legend>
     <div class="form-grid">
-      <div class="field"><label for="preferredContactMethod">Preferred contact method</label><select id="preferredContactMethod" name="preferredContactMethod" required aria-describedby="preferredContactMethod-error form-status"><option value="">Select</option><option value="phone">Phone call</option><option value="text">Text message</option><option value="email">Email</option></select><p class="field-error" id="preferredContactMethod-error"></p></div>
+      <div class="field"><label for="preferredContactMethod">Preferred contact method</label><select id="preferredContactMethod" name="preferredContactMethod" required aria-describedby="preferredContactMethod-error form-status"><option value="">Select</option>{business.preferredContactMethods.map((method) => <option value={method.value}>{method.label}</option>)}</select><p class="field-error" id="preferredContactMethod-error"></p></div>
       <div class="field"><label for="preferredVisitDate">Preferred visit date</label><input id="preferredVisitDate" name="preferredVisitDate" type="date" aria-describedby="form-status" /></div>
     </div>
   </fieldset>
@@ -55,18 +57,38 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
     if (!status) return;
 
     const formData = new FormData(form);
-    const requiredFields = ['customerName', 'phone', 'vehicleYear', 'vehicleMake', 'vehicleModel', 'tireSize', 'tiresNeeded', 'preferredContactMethod'];
+    const requiredFields = ['customerName', 'vehicleYear', 'vehicleMake', 'vehicleModel', 'tireSize', 'tiresNeeded', 'preferredContactMethod'];
     const missing = requiredFields.filter((field) => !String(formData.get(field) || '').trim());
+    const preferredContactMethod = String(formData.get('preferredContactMethod') || '');
+    const phone = String(formData.get('phone') || '').trim();
+    const email = String(formData.get('email') || '').trim();
     const submitButton = form.querySelector<HTMLButtonElement>('.submit-button');
     form.querySelectorAll('.field-error').forEach((error) => { error.textContent = ''; });
     form.querySelectorAll('[aria-invalid="true"]').forEach((field) => field.removeAttribute('aria-invalid'));
+
+    if (preferredContactMethod === 'phone_call' && !phone) missing.push('phone');
+    if (preferredContactMethod === 'text_message' && !phone) missing.push('phone');
+    if (preferredContactMethod === 'email' && !email) missing.push('email');
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      missing.push('email');
+    }
 
     if (missing.length || formData.get('consentToContact') !== 'on') {
       missing.forEach((field) => {
         const input = form.querySelector<HTMLElement>(`[name="${field}"]`);
         const error = document.getElementById(`${field}-error`);
         input?.setAttribute('aria-invalid', 'true');
-        if (error) error.textContent = 'This field is required.';
+        if (error && field === 'phone' && preferredContactMethod === 'phone_call') {
+          error.textContent = 'Please enter a phone number so we can call you.';
+        } else if (error && field === 'phone' && preferredContactMethod === 'text_message') {
+          error.textContent = 'Please enter a phone number so we can text you.';
+        } else if (error && field === 'email' && preferredContactMethod === 'email') {
+          error.textContent = 'Please enter an email address so we can contact you by email.';
+        } else if (error && field === 'email') {
+          error.textContent = 'Email address is not valid.';
+        } else if (error) {
+          error.textContent = 'This field is required.';
+        }
       });
       if (formData.get('consentToContact') !== 'on') {
         const error = document.getElementById('consentToContact-error');

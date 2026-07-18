@@ -1,9 +1,10 @@
 ---
-import { business, getPublicPhoneHref, getPublicSmsHref } from '../config/business';
+import { business, getPublicEmailHref, getPublicPhoneHref, getPublicSmsHref } from '../config/business';
 import { navItems } from '../content/home';
 
 const phoneHref = getPublicPhoneHref();
 const smsHref = getPublicSmsHref();
+const emailHref = getPublicEmailHref();
 ---
 
 <header class="site-header" data-site-header>
@@ -32,14 +33,9 @@ const smsHref = getPublicSmsHref();
     </nav>
     <div class="menu-actions">
       <a class="button button-primary" href="#request">Find Your Tire</a>
-      {phoneHref ? (
-        <>
-          <a class="button button-secondary" href={phoneHref}>Call or Text Us</a>
-          <a class="visually-hidden" href={smsHref}>Text Chamos Tire Co</a>
-        </>
-      ) : (
-        <a class="button button-secondary" href="#request">Call or Text Us</a>
-      )}
+      <a class="button button-secondary" href={phoneHref}>Call {business.phone}</a>
+      <a class="button button-secondary" href={smsHref}>Text {business.phone}</a>
+      <a class="button button-secondary" href={emailHref}>Email {business.email}</a>
     </div>
   </div>
 </aside>

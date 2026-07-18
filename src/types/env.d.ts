@@ -3,6 +3,8 @@ declare global {
     readonly PUBLIC_SITE_URL?: string;
     readonly PUBLIC_BUSINESS_NAME?: string;
     readonly PUBLIC_BUSINESS_PHONE?: string;
+    readonly PUBLIC_BUSINESS_PHONE_E164?: string;
+    readonly PUBLIC_BUSINESS_PHONE_SCHEMA?: string;
     readonly PUBLIC_BUSINESS_EMAIL?: string;
     readonly PUBLIC_TURNSTILE_SITE_KEY?: string;
     readonly TURNSTILE_SECRET_KEY?: string;
@@ -24,6 +26,8 @@ declare global {
     PUBLIC_SITE_URL?: string;
     PUBLIC_BUSINESS_NAME?: string;
     PUBLIC_BUSINESS_PHONE?: string;
+    PUBLIC_BUSINESS_PHONE_E164?: string;
+    PUBLIC_BUSINESS_PHONE_SCHEMA?: string;
     PUBLIC_BUSINESS_EMAIL?: string;
     PUBLIC_TURNSTILE_SITE_KEY?: string;
   }

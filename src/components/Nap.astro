@@ -1,5 +1,5 @@
 ---
-import { business, businessLocationLabel, getPublicPhoneHref } from '../config/business';
+import { business, businessLocationLabel, getPublicEmailHref, getPublicPhoneHref } from '../config/business';
 
 interface Props {
   compact?: boolean;
@@ -7,6 +7,7 @@ interface Props {
 
 const { compact = false } = Astro.props;
 const phoneHref = getPublicPhoneHref();
+const emailHref = getPublicEmailHref();
 const hasFullAddress = Boolean(business.streetAddress);
 ---
 
@@ -18,6 +19,6 @@ const hasFullAddress = Boolean(business.streetAddress);
     <span>{businessLocationLabel} service area. Public street address pending confirmation.</span>
   )}
   <span>{business.operatingHoursText}</span>
-  {business.phone ? <a href={phoneHref}>{business.phone}</a> : <span>Phone pending confirmation</span>}
-  {business.email ? <a href={`mailto:${business.email}`}>{business.email}</a> : <span>Email pending confirmation</span>}
+  <a href={phoneHref}>{business.phone}</a>
+  <a href={emailHref}>{business.email}</a>
 </address>
