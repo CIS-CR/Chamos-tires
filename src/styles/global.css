@@ -350,6 +350,14 @@ h3 {
   margin: 2rem 0 18px;
 }
 
+.hero-note {
+  max-width: 520px;
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 800;
+}
+
 .contact-menu {
   position: relative;
 }
@@ -978,6 +986,13 @@ textarea:focus {
 .field-error {
   margin: 0;
   font-size: 13px;
+}
+
+.form-note {
+  margin: -6px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 .field-error {

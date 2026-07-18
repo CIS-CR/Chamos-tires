@@ -43,6 +43,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
   <input type="hidden" name="turnstileToken" id="turnstileToken" value="" />
   {turnstileSiteKey && <div class="turnstile-placeholder" data-sitekey={turnstileSiteKey}>Turnstile will render here when enabled.</div>}
   <label class="consent" for="consentToContact"><input id="consentToContact" name="consentToContact" type="checkbox" required />I agree that Chamos Tire Co may contact me about tire availability, pricing, and next steps.</label>
+  <p class="form-note">Submitting this form does not reserve a tire or confirm an appointment. Chamos Tire Co will contact you after checking current inventory.</p>
   <p class="field-error" id="consentToContact-error"></p>
   <button class="button button-primary submit-button" type="submit">Submit Tire Request</button>
   <p class="form-status" id="form-status" role="status" aria-live="polite"></p>

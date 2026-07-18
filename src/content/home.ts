@@ -44,20 +44,20 @@ export const serviceCards = [
 
 export const processSteps = [
   {
-    title: 'Send your tire size or vehicle information.',
-    text: 'Use the form to share your tire size, vehicle year, make, model, and quantity needed.',
+    title: 'Contact Chamos Tire Co.',
+    text: 'Call, text, email, submit the website form, or send a message through Facebook Marketplace with your tire size or vehicle information.',
   },
   {
-    title: 'Chamos Tire Co reviews available options.',
-    text: 'The request becomes an FBOS action for availability review and follow-up.',
+    title: 'Current inventory is checked manually.',
+    text: 'Chamos Tire Co reviews the tires currently available based on the requested size, vehicle, and quantity.',
   },
   {
-    title: 'Receive availability and pricing information.',
-    text: 'The team can respond with current options and next steps. Pricing is not displayed until confirmed.',
+    title: 'Receive available options and pricing.',
+    text: 'The team follows up with the available tire options, current pricing, and any additional information needed before scheduling a visit.',
   },
   {
-    title: 'Coordinate a visit or appointment.',
-    text: 'Visits are available Monday through Saturday, by appointment only, at 1005 Goodworth Dr, Unit 105, Apex, NC 27539.',
+    title: 'Schedule your visit and purchase.',
+    text: 'Appointments are coordinated individually for customers to visit 1005 Goodworth Dr, Unit 105, Apex, NC 27539, review the available tires, and complete the purchase. Monday through Saturday, By Appointment Only.',
   },
 ];
 
@@ -76,11 +76,11 @@ export const faqItems = [
   },
   {
     question: 'Can I purchase only one used tire?',
-    answer: 'Yes, you can request a single used tire. Availability depends on current inventory and the tire size needed.',
+    answer: 'Yes, you can request a single used tire. Availability depends on current inventory and the tire size needed. Availability must be confirmed before scheduling a visit.',
   },
   {
     question: 'Do you sell pairs and full sets?',
-    answer: 'You can request pairs or full sets through the form. Chamos Tire Co will confirm whether matching options are available.',
+    answer: 'You can request pairs or full sets through the form. Chamos Tire Co will confirm whether matching options are available. Available quantities depend on current inventory and are confirmed manually.',
   },
   {
     question: 'Are the tires inspected?',
@@ -92,11 +92,11 @@ export const faqItems = [
   },
   {
     question: 'How can I check tire availability?',
-    answer: 'Use the Find Your Tire form with your tire size, vehicle information, quantity needed, and preferred contact method.',
+    answer: 'You can call, send a text message, email Chamos Tire Co, submit the Find Your Tire form, or contact the business through Facebook Marketplace. Include your tire size or vehicle year, make, and model whenever possible. Inventory is checked manually, and the team will respond with available options and pricing.',
   },
   {
     question: 'Do I need an appointment?',
-    answer: 'Yes. Visits are by appointment only, Monday through Saturday. You can submit a preferred visit date so the team can coordinate next steps.',
+    answer: 'Yes. Visits are scheduled individually after tire availability has been checked and confirmed. Chamos Tire Co is available Monday through Saturday, by appointment only, at 1005 Goodworth Dr, Unit 105, Apex, NC 27539.',
   },
   {
     question: 'What areas do you serve?',
