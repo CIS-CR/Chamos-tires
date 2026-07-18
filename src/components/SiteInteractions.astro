@@ -37,8 +37,38 @@
   overlay?.addEventListener('click', () => setMenu(false));
   menu?.querySelectorAll('a[href]').forEach((link) => link.addEventListener('click', () => setMenu(false)));
 
+  function setDirectionsMenu(root: Element, open: boolean) {
+    const trigger = root.querySelector<HTMLElement>('[data-directions-toggle]');
+    const panel = root.querySelector<HTMLElement>('[data-directions-menu]');
+    if (!trigger || !panel) return;
+    trigger.setAttribute('aria-expanded', String(open));
+    panel.hidden = !open;
+  }
+
+  document.querySelectorAll('[data-directions-root]').forEach((root) => {
+    const trigger = root.querySelector<HTMLElement>('[data-directions-toggle]');
+    trigger?.addEventListener('click', () => {
+      const open = trigger.getAttribute('aria-expanded') !== 'true';
+      document.querySelectorAll('[data-directions-root]').forEach((otherRoot) => {
+        if (otherRoot !== root) setDirectionsMenu(otherRoot, false);
+      });
+      setDirectionsMenu(root, open);
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    document.querySelectorAll('[data-directions-root]').forEach((root) => {
+      if (!root.contains(target)) setDirectionsMenu(root, false);
+    });
+  });
+
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') setMenu(false);
+    if (event.key === 'Escape') {
+      document.querySelectorAll('[data-directions-root]').forEach((root) => setDirectionsMenu(root, false));
+    }
     if (event.key !== 'Tab' || !menu?.classList.contains('is-open')) return;
     const focusable = Array.from(menu.querySelectorAll<HTMLElement>(focusableSelector));
     if (!focusable.length) return;

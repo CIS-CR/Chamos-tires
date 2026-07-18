@@ -1,5 +1,5 @@
 ---
-import Icon from './Icon.astro';
+import LocationMap from './LocationMap.astro';
 import Nap from './Nap.astro';
 import { serviceAreaChips } from '../content/home';
 ---
@@ -16,12 +16,5 @@ import { serviceAreaChips } from '../content/home';
       {serviceAreaChips.map((chip) => <span>{chip}</span>)}
     </div>
   </div>
-  <div class="service-map" aria-hidden="true">
-    <Icon name="pin" />
-    <span>Apex</span>
-    <span>Holly Springs</span>
-    <span>Fuquay-Varina</span>
-    <span>Cary</span>
-    <span>Raleigh</span>
-  </div>
+  <LocationMap />
 </section>

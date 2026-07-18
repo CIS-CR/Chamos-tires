@@ -1,0 +1,61 @@
+---
+import { business, getPublicPhoneHref, getPublicSmsHref } from '../config/business';
+
+const addressLine = `${business.streetAddress}, ${business.city}, ${business.state} ${business.zipCode}`;
+const encodedAddress = encodeURIComponent(addressLine);
+const googleMapsEmbedUrl = `https://www.google.com/maps?q=${encodedAddress}&output=embed`;
+const googleDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}&travelmode=driving`;
+const wazeDirectionsUrl = `https://www.waze.com/ul?q=${encodedAddress}&navigate=yes&zoom=17`;
+const directionsMenuId = 'location-directions-menu';
+const phoneHref = getPublicPhoneHref();
+const smsHref = getPublicSmsHref();
+---
+
+<div class="location-panel">
+  <div class="location-map" data-directions-root>
+    <iframe
+      title="Map showing the location of Chamos Tire Co."
+      src={googleMapsEmbedUrl}
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      allowfullscreen
+    ></iframe>
+
+    <div class="location-map-card">
+      <strong>{business.publicName}</strong>
+      <span>{business.streetAddress}</span>
+      <span>{business.city}, {business.state} {business.zipCode}</span>
+      <span>Monday through Saturday</span>
+      <span>By Appointment Only</span>
+    </div>
+
+    <div class="location-map-actions">
+      <button
+        class="button button-primary directions-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls={directionsMenuId}
+        data-directions-toggle
+      >
+        Get Directions
+      </button>
+      <div class="directions-menu" id={directionsMenuId} hidden data-directions-menu>
+        <a href={googleDirectionsUrl} target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+        <a href={wazeDirectionsUrl} target="_blank" rel="noopener noreferrer">Open in Waze</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="location-info-bar">
+    <div>
+      <strong>{business.publicName}</strong>
+      <span>{addressLine}</span>
+      <span>{business.operatingHoursText}</span>
+    </div>
+    <div class="location-info-actions">
+      <a class="button button-primary" href={googleDirectionsUrl} target="_blank" rel="noopener noreferrer">Get Directions</a>
+      <a class="button button-secondary" href={phoneHref}>Call</a>
+      <a class="button button-secondary" href={smsHref}>Text</a>
+    </div>
+  </div>
+</div>
