@@ -57,7 +57,7 @@ export const processSteps = [
   },
   {
     title: 'Coordinate a visit or appointment.',
-    text: 'Appointments and visit details depend on confirmed business hours, location, and availability.',
+    text: 'Visits are available Monday through Saturday, by appointment only, at 1005 Goodworth Dr, Unit 105, Apex, NC 27539.',
   },
 ];
 
@@ -96,7 +96,7 @@ export const faqItems = [
   },
   {
     question: 'Do I need an appointment?',
-    answer: 'Appointment requirements are pending business confirmation. You can submit a preferred visit date so the team can coordinate next steps.',
+    answer: 'Yes. Visits are by appointment only, Monday through Saturday. You can submit a preferred visit date so the team can coordinate next steps.',
   },
   {
     question: 'What areas do you serve?',

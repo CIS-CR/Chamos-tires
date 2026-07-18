@@ -15,6 +15,7 @@ export interface BusinessConfig {
     opens: string;
     closes: string;
   }>;
+  operatingHoursText: string;
   serviceAreas: string[];
   googleBusinessProfileUrl: string;
   googleDirectionsUrl: string;
@@ -35,14 +36,15 @@ export const business: BusinessConfig = {
   publicName: env.PUBLIC_BUSINESS_NAME || 'Chamos Tire Co',
   phone: env.PUBLIC_BUSINESS_PHONE || '',
   email: env.PUBLIC_BUSINESS_EMAIL || '',
-  streetAddress: env.PUBLIC_BUSINESS_STREET_ADDRESS || '',
+  streetAddress: env.PUBLIC_BUSINESS_STREET_ADDRESS || '1005 Goodworth Dr, Unit 105',
   city: env.PUBLIC_BUSINESS_CITY || 'Apex',
   state: env.PUBLIC_BUSINESS_STATE || 'NC',
-  zipCode: env.PUBLIC_BUSINESS_ZIP || '',
+  zipCode: env.PUBLIC_BUSINESS_ZIP || '27539',
   country: env.PUBLIC_BUSINESS_COUNTRY || 'US',
   latitude: env.PUBLIC_BUSINESS_LATITUDE || '',
   longitude: env.PUBLIC_BUSINESS_LONGITUDE || '',
   businessHours: [],
+  operatingHoursText: env.PUBLIC_BUSINESS_OPERATING_HOURS || 'Monday through Saturday, By Appointment Only.',
   serviceAreas: [
     'Apex',
     'Holly Springs',
@@ -61,7 +63,9 @@ export const business: BusinessConfig = {
   mainDomain: env.PUBLIC_SITE_URL || 'https://chamos-tires.pages.dev',
   logoPath: '/chamos-tires-icon.svg',
   defaultSocialImage: env.PUBLIC_SOCIAL_IMAGE || '/images/chamos-tires-whatsapp.svg',
-  customersVisitAddress: env.PUBLIC_CUSTOMERS_VISIT_ADDRESS === 'true',
+  customersVisitAddress: env.PUBLIC_CUSTOMERS_VISIT_ADDRESS
+    ? env.PUBLIC_CUSTOMERS_VISIT_ADDRESS === 'true'
+    : true,
   installationOffered: env.PUBLIC_INSTALLATION_OFFERED
     ? env.PUBLIC_INSTALLATION_OFFERED === 'true'
     : null,

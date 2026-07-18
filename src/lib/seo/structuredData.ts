@@ -18,10 +18,10 @@ const pruneEmpty = <T>(value: T): T | undefined => {
 export const createTireShopJsonLd = (url: string, imageUrl: string): Record<string, unknown> => {
   const address = {
     '@type': 'PostalAddress',
-    streetAddress: business.customersVisitAddress ? business.streetAddress : '',
+    streetAddress: business.streetAddress,
     addressLocality: business.city,
     addressRegion: business.state,
-    postalCode: business.customersVisitAddress ? business.zipCode : '',
+    postalCode: business.zipCode,
     addressCountry: business.country,
   };
 
@@ -48,6 +48,7 @@ export const createTireShopJsonLd = (url: string, imageUrl: string): Record<stri
       opens: hours.opens,
       closes: hours.closes,
     })),
+    openingHours: business.operatingHoursText,
     areaServed: business.serviceAreas.map((area) => ({
       '@type': 'Place',
       name: area,
