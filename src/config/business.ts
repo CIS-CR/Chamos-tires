@@ -35,7 +35,7 @@ export interface BusinessConfig {
   }>;
 }
 
-const env = import.meta.env;
+const env = import.meta.env || {};
 const confirmedContact = {
   phone: '919-633-3720',
   phoneE164: '+19196333720',
