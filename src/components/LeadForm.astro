@@ -50,8 +50,20 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
 </form>
 
 <script>
+  import { trackEvent } from '../lib/analytics/ga';
+
   const form = document.querySelector<HTMLFormElement>('#lead-form');
   const status = document.querySelector<HTMLElement>('#form-status');
+  let hasTrackedFormStart = false;
+
+  form?.addEventListener('focusin', () => {
+    if (hasTrackedFormStart) return;
+    hasTrackedFormStart = true;
+    trackEvent('form_start', {
+      form_name: 'tire_request',
+      service: 'used_tire_request',
+    });
+  });
 
   form?.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -133,6 +145,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
       status.textContent = 'Request received. Chamos Tire Co will follow up with availability and next steps.';
       status.dataset.state = 'success';
       form.dataset.state = 'success';
+      trackEvent('generate_lead', {
+        form_name: 'tire_request',
+        service: 'used_tire_request',
+      });
     } catch {
       status.textContent = 'Unable to send your request right now. Please try again.';
       status.dataset.state = 'error';

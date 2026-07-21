@@ -4,6 +4,7 @@ pages_build_output_dir = "dist"
 
 [vars]
 PUBLIC_BUSINESS_NAME = "Chamos Tire Co"
+PUBLIC_GA_MEASUREMENT_ID = "G-7K1HVRH35V"
 
 [[kv_namespaces]]
 binding = "CHAMOS_TIRES_KV"

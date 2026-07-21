@@ -1,0 +1,34 @@
+<script>
+  import { trackEvent } from '../lib/analytics/ga';
+
+  document.addEventListener('click', (event) => {
+    const target = event.target instanceof Element ? event.target : null;
+    const link = target?.closest<HTMLAnchorElement>('a[href]');
+    if (!link) return;
+
+    const href = link.getAttribute('href') || '';
+
+    if (href.startsWith('tel:')) {
+      trackEvent('click_call', {
+        event_category: 'contact',
+        link_type: 'phone',
+      });
+      return;
+    }
+
+    if (href.startsWith('sms:')) {
+      trackEvent('click_text', {
+        event_category: 'contact',
+        link_type: 'sms',
+      });
+      return;
+    }
+
+    if (href.includes('google.com/maps/dir') || href.includes('waze.com/ul')) {
+      trackEvent('click_directions', {
+        event_category: 'location',
+        destination_app: href.includes('waze.com/ul') ? 'waze' : 'google_maps',
+      });
+    }
+  });
+</script>

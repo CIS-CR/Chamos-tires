@@ -59,6 +59,7 @@ PUBLIC_BUSINESS_PHONE_E164=+19196333720
 PUBLIC_BUSINESS_PHONE_SCHEMA=+1-919-633-3720
 PUBLIC_BUSINESS_EMAIL=chamostireco@gmail.com
 PUBLIC_TURNSTILE_SITE_KEY=
+PUBLIC_GA_MEASUREMENT_ID=G-7K1HVRH35V
 
 TURNSTILE_SECRET_KEY=
 RESEND_API_KEY=
@@ -131,6 +132,45 @@ npm run deploy
 ```
 
 Cloudflare Pages project name: `chamos-tires`.
+
+## Google Analytics 4
+
+GA4 is installed once in the global Astro layout using this public Measurement ID:
+
+```text
+G-7K1HVRH35V
+```
+
+Set this value in Cloudflare Pages as:
+
+```env
+PUBLIC_GA_MEASUREMENT_ID=G-7K1HVRH35V
+```
+
+Implemented events:
+
+- `click_call`: triggered when a user clicks a `tel:` link.
+- `click_text`: triggered when a user clicks an `sms:` link.
+- `form_start`: triggered once per page load when the user first interacts with the main tire request form.
+- `generate_lead`: triggered only after `/api/leads` returns a successful lead creation response.
+- `click_directions`: triggered when the user opens Google Maps or Waze directions.
+
+The `generate_lead` event only sends general parameters:
+
+```json
+{
+  "form_name": "tire_request",
+  "service": "used_tire_request"
+}
+```
+
+Do not send customer names, phone numbers, emails, addresses, full vehicle details, tire sizes, or notes to Google Analytics.
+
+Validation options:
+
+- Open GA4 Realtime and interact with the site after deployment.
+- Use GA4 DebugView with a browser debug extension or preview environment.
+- In browser DevTools, verify that `gtag/js?id=G-7K1HVRH35V` loads once and that event requests are sent after clicking call/text/directions or submitting a successful form.
 
 ## API
 
