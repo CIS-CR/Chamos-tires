@@ -1374,3 +1374,374 @@ textarea { resize: vertical; }
     transform: none;
   }
 }
+
+.ops-shell {
+  width: min(1600px, calc(100% - 32px));
+  margin-inline: auto;
+  padding: 32px 0 56px;
+}
+
+.ops-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.ops-header h1,
+.ops-column h2,
+.ops-history-card h2,
+.ops-dialog-card h2 {
+  margin: 0;
+  color: var(--charcoal);
+  line-height: 1;
+}
+
+.ops-header h1 {
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  letter-spacing: 0;
+}
+
+.ops-eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent-strong);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.ops-nav {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ops-nav a,
+.ops-btn {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(20, 17, 15, .18);
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: #fff;
+  color: var(--charcoal);
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ops-status {
+  min-height: 24px;
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.ops-status.is-error {
+  color: var(--danger);
+}
+
+.ops-board {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(260px, 1fr));
+  gap: 14px;
+  align-items: start;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.ops-column {
+  min-height: 480px;
+  padding: 12px;
+  border: 1px solid rgba(20, 17, 15, .1);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, .74);
+  box-shadow: 0 10px 28px rgba(20, 17, 15, .08);
+}
+
+.ops-column h2 {
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+}
+
+.ops-column-list,
+.ops-history {
+  display: grid;
+  gap: 12px;
+}
+
+.ops-card,
+.ops-history-card,
+.ops-dialog-card {
+  border: 1px solid rgba(20, 17, 15, .1);
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(20, 17, 15, .08);
+}
+
+.ops-card {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.ops-card-top,
+.ops-history-main,
+.ops-dialog-actions {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ops-card-top span {
+  border-radius: 999px;
+  padding: 5px 8px;
+  background: rgba(249, 115, 22, .12);
+  color: var(--accent-strong);
+  font-size: .76rem;
+  font-weight: 900;
+}
+
+.ops-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.ops-card dl,
+.ops-data-grid {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.ops-card dl div,
+.ops-data-grid div {
+  display: grid;
+  gap: 2px;
+}
+
+.ops-card dt,
+.ops-data-grid dt {
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.ops-card dd,
+.ops-data-grid dd {
+  margin: 0;
+  color: var(--charcoal);
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.ops-note,
+.ops-empty {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.ops-card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.ops-btn-primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+.ops-btn-danger {
+  border-color: rgba(185, 28, 28, .2);
+  background: rgba(185, 28, 28, .08);
+  color: var(--danger);
+}
+
+.ops-btn-secondary {
+  background: var(--soft);
+}
+
+.ops-btn:disabled {
+  cursor: wait;
+  opacity: .64;
+}
+
+.ops-dialog {
+  width: min(520px, calc(100% - 28px));
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+}
+
+.ops-dialog::backdrop {
+  background: rgba(17, 16, 15, .54);
+  backdrop-filter: blur(3px);
+}
+
+.ops-dialog-card {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+}
+
+.ops-dialog-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.ops-dialog-card label {
+  display: grid;
+  gap: 7px;
+  color: var(--charcoal);
+  font-weight: 900;
+}
+
+.ops-dialog-card input,
+.ops-dialog-card textarea {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid rgba(20, 17, 15, .18);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+}
+
+.ops-history-card {
+  display: grid;
+  gap: 18px;
+  padding: 18px;
+}
+
+.ops-history-main {
+  align-items: center;
+}
+
+.ops-history-quote {
+  min-width: 140px;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--charcoal);
+  color: #fff;
+  text-align: right;
+}
+
+.ops-history-quote span {
+  display: block;
+  color: rgba(255, 255, 255, .72);
+  font-size: .75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.ops-history-quote strong {
+  font-size: 1.35rem;
+}
+
+.ops-data-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.ops-history-notes {
+  padding: 12px;
+  border: 1px solid rgba(20, 17, 15, .1);
+  border-radius: 10px;
+  background: var(--soft);
+}
+
+.ops-history-notes.is-danger {
+  border-color: rgba(185, 28, 28, .18);
+  background: rgba(185, 28, 28, .06);
+}
+
+.ops-history-notes strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.ops-history-notes p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.ops-timeline {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.ops-timeline li {
+  padding-left: 4px;
+}
+
+.ops-timeline strong,
+.ops-timeline span,
+.ops-timeline em {
+  display: block;
+}
+
+.ops-timeline span {
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.ops-timeline em {
+  color: var(--accent-strong);
+  font-style: normal;
+  font-weight: 900;
+}
+
+.ops-timeline p {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+@media (max-width: 1024px) {
+  .ops-header,
+  .ops-history-main {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .ops-board {
+    grid-template-columns: repeat(5, minmax(280px, 86vw));
+  }
+
+  .ops-data-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ops-history-quote {
+    text-align: left;
+  }
+}
+
+@media (max-width: 640px) {
+  .ops-shell {
+    width: min(100% - 24px, 1600px);
+    padding-top: 20px;
+  }
+
+  .ops-card-actions,
+  .ops-data-grid,
+  .ops-dialog-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .ops-dialog-actions {
+    display: grid;
+  }
+}

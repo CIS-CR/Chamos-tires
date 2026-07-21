@@ -1,0 +1,131 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Chamos Tires History | FBOS"
+  description="Operational history for Chamos Tire Co tire availability requests."
+  canonical="/history"
+  noindex
+>
+  <main class="ops-shell">
+    <header class="ops-header">
+      <div>
+        <p class="ops-eyebrow">FBOS History</p>
+        <h1>Request History</h1>
+      </div>
+      <nav class="ops-nav" aria-label="Operations navigation">
+        <a href="/canvas">Canvas</a>
+        <a href="/">Website</a>
+      </nav>
+    </header>
+
+    <p class="ops-status" id="historyStatus" role="status">Loading history...</p>
+    <section class="ops-history" id="historyList" aria-label="Request history"></section>
+  </main>
+</Layout>
+
+<script>
+  // @ts-nocheck
+  const statusEl = document.querySelector('#historyStatus');
+  const historyList = document.querySelector('#historyList');
+
+  const escapeHtml = (value) =>
+    String(value ?? '').replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;',
+    })[char]);
+
+  const formatDate = (value) => {
+    if (!value) return '—';
+    return new Intl.DateTimeFormat('en-US', {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    }).format(new Date(value));
+  };
+
+  const money = (amount, currency = 'USD') =>
+    new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(Number(amount || 0));
+
+  const customerExport = (action) => [
+    action.customer?.name,
+    action.customer?.phone,
+    action.customer?.email,
+    action.customer?.preferredContactMethod,
+  ].filter(Boolean).join(' | ');
+
+  const timeline = (action) => {
+    const entries = Array.isArray(action.statusHistory) ? action.statusHistory : [];
+    if (!entries.length) return '<p class="ops-empty">No timeline entries.</p>';
+
+    return `
+      <ol class="ops-timeline">
+        ${entries.map((entry) => `
+          <li>
+            <strong>${escapeHtml(entry.status)}</strong>
+            <span>${escapeHtml(formatDate(entry.changedAt))}</span>
+            ${entry.quoteAmount ? `<em>Quote: ${escapeHtml(money(entry.quoteAmount, entry.quoteCurrency || 'USD'))}</em>` : ''}
+            ${entry.discardReason ? `<em>Discard reason: ${escapeHtml(entry.discardReason)}</em>` : ''}
+            ${entry.note ? `<p>${escapeHtml(entry.note)}</p>` : ''}
+          </li>
+        `).join('')}
+      </ol>
+    `;
+  };
+
+  const actionRow = (action) => `
+    <article class="ops-history-card">
+      <div class="ops-history-main">
+        <div>
+          <p class="ops-eyebrow">${escapeHtml(action.currentStatus)}</p>
+          <h2>${escapeHtml(action.actionId)}</h2>
+          <p class="ops-note">${escapeHtml(customerExport(action))}</p>
+        </div>
+        <div class="ops-history-quote">
+          <span>Quote</span>
+          <strong>${action.quote?.amount ? escapeHtml(money(action.quote.amount, action.quote.currency || 'USD')) : '—'}</strong>
+        </div>
+      </div>
+
+      <dl class="ops-data-grid">
+        <div><dt>Name</dt><dd>${escapeHtml(action.customer?.name || '—')}</dd></div>
+        <div><dt>Phone</dt><dd><a href="tel:${escapeHtml(action.customer?.phone || '')}">${escapeHtml(action.customer?.phone || '—')}</a></dd></div>
+        <div><dt>Email</dt><dd>${action.customer?.email ? `<a href="mailto:${escapeHtml(action.customer.email)}">${escapeHtml(action.customer.email)}</a>` : '—'}</dd></div>
+        <div><dt>Preferred contact</dt><dd>${escapeHtml(action.customer?.preferredContactMethod || '—')}</dd></div>
+        <div><dt>Vehicle</dt><dd>${escapeHtml([action.vehicle?.year, action.vehicle?.make, action.vehicle?.model].filter(Boolean).join(' ') || '—')}</dd></div>
+        <div><dt>Tire request</dt><dd>${escapeHtml(action.tireRequirements?.tireSize || '—')} · ${escapeHtml(action.tireRequirements?.tiresNeeded || '—')} tire(s)</dd></div>
+        <div><dt>Lead source</dt><dd>${escapeHtml(action.leadSource || '—')}</dd></div>
+        <div><dt>Created</dt><dd>${escapeHtml(formatDate(action.createdAt))}</dd></div>
+      </dl>
+
+      ${action.notes?.length ? `<div class="ops-history-notes"><strong>Notes</strong><p>${escapeHtml(action.notes.join('\\n'))}</p></div>` : ''}
+      ${action.discardReason ? `<div class="ops-history-notes is-danger"><strong>Discard reason</strong><p>${escapeHtml(action.discardReason)}</p></div>` : ''}
+      ${timeline(action)}
+    </article>
+  `;
+
+  const setStatus = (message, isError = false) => {
+    statusEl.textContent = message;
+    statusEl.classList.toggle('is-error', isError);
+  };
+
+  const loadHistory = async () => {
+    setStatus('Loading history...');
+    try {
+      const res = await fetch('/api/actions?view=history');
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.error || 'Unable to load history.');
+      historyList.innerHTML = data.actions.length
+        ? data.actions.map(actionRow).join('')
+        : '<p class="ops-empty">No requests found.</p>';
+      setStatus(`${data.actions.length} history record(s) loaded.`);
+    } catch (error) {
+      setStatus(error.message || 'Unable to load history.', true);
+    }
+  };
+
+  loadHistory();
+</script>

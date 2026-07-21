@@ -19,5 +19,6 @@ export const saveLeadRecord = async (kv: KVNamespace, record: LeadRecord): Promi
       updatedAt: record.lead.updatedAt,
     })),
     kv.put(`index:leads:${record.lead.leadId}`, record.lead.createdAt),
+    kv.put(`index:actions:${record.action.actionId}`, record.action.createdAt),
   ]);
 };

@@ -24,10 +24,10 @@ export const createFbosAction = (lead: Lead): FbosAction => ({
     tiresNeeded: lead.tiresNeeded,
   },
   leadSource: lead.leadSource,
-  currentStatus: 'New Lead',
+  currentStatus: 'New',
   statusHistory: [
     {
-      status: 'New Lead',
+      status: 'New',
       changedAt: lead.createdAt,
       changedBy: 'website',
       note: 'Lead created from Chamos Tire Co landing page.',

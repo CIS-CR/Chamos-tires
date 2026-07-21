@@ -1,12 +1,12 @@
 import type { Lead } from './leads';
 
 export const FBOS_STATUSES = [
-  'New Lead',
-  'Availability Review',
-  'Quote Sent',
-  'Appointment Scheduled',
-  'Completed',
-  'Follow-Up',
+  'New',
+  'Quoted',
+  'Confirmed',
+  'In Progress',
+  'Done',
+  'Discarded',
 ] as const;
 
 export type FbosStatus = (typeof FBOS_STATUSES)[number];
@@ -16,6 +16,9 @@ export interface FbosStatusHistoryEntry {
   changedAt: string;
   changedBy: string;
   note?: string;
+  quoteAmount?: number;
+  quoteCurrency?: string;
+  discardReason?: string;
 }
 
 export interface FbosAction {
@@ -43,7 +46,14 @@ export interface FbosAction {
   leadSource: string;
   currentStatus: FbosStatus;
   statusHistory: FbosStatusHistoryEntry[];
+  quote?: {
+    amount: number;
+    currency: string;
+    quotedAt: string;
+  };
   notes: string[];
+  discardReason?: string;
+  discardedAt?: string;
   emailNotificationStatus: 'pending' | 'sent' | 'skipped' | 'failed';
   emailNotificationError?: string;
   assignedOwner?: string;

@@ -1,0 +1,244 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const statuses = ['New', 'Quoted', 'Confirmed', 'In Progress', 'Done'];
+---
+
+<Layout
+  title="Chamos Tires Canvas | FBOS"
+  description="Operational canvas for Chamos Tire Co tire availability requests."
+  canonical="/canvas"
+  noindex
+>
+  <main class="ops-shell">
+    <header class="ops-header">
+      <div>
+        <p class="ops-eyebrow">FBOS Canvas</p>
+        <h1>Chamos Tires Requests</h1>
+      </div>
+      <nav class="ops-nav" aria-label="Operations navigation">
+        <a href="/">Website</a>
+        <a href="/history">History</a>
+      </nav>
+    </header>
+
+    <p class="ops-status" id="canvasStatus" role="status">Loading requests...</p>
+
+    <section class="ops-board" aria-label="Requests by status">
+      {statuses.map((status) => (
+        <div class="ops-column" data-status={status}>
+          <h2>{status}</h2>
+          <div class="ops-column-list" data-list={status}></div>
+        </div>
+      ))}
+    </section>
+  </main>
+
+  <dialog class="ops-dialog" id="quoteDialog">
+    <form method="dialog" class="ops-dialog-card" id="quoteForm">
+      <h2>Add quote</h2>
+      <p>Enter the quoted amount before moving this request to Quoted.</p>
+      <input type="hidden" id="quoteActionId" />
+      <label>
+        Quote amount
+        <input id="quoteAmount" type="number" min="0.01" step="0.01" inputmode="decimal" required />
+      </label>
+      <label>
+        Note
+        <textarea id="quoteNote" rows="3"></textarea>
+      </label>
+      <div class="ops-dialog-actions">
+        <button class="ops-btn ops-btn-secondary" type="button" data-close-dialog>Cancel</button>
+        <button class="ops-btn ops-btn-primary" type="submit">Save quote</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="ops-dialog" id="discardDialog">
+    <form method="dialog" class="ops-dialog-card" id="discardForm">
+      <h2>Discard request</h2>
+      <p>Add the reason this request is being discarded. This will remain visible in history.</p>
+      <input type="hidden" id="discardActionId" />
+      <label>
+        Discard reason
+        <textarea id="discardReason" rows="4" required></textarea>
+      </label>
+      <div class="ops-dialog-actions">
+        <button class="ops-btn ops-btn-secondary" type="button" data-close-dialog>Cancel</button>
+        <button class="ops-btn ops-btn-danger" type="submit">Discard</button>
+      </div>
+    </form>
+  </dialog>
+</Layout>
+
+<script>
+  // @ts-nocheck
+  const statuses = ['New', 'Quoted', 'Confirmed', 'In Progress', 'Done'];
+  const nextLabels = {
+    New: 'Quote',
+    Quoted: 'Confirm',
+    Confirmed: 'Start',
+    'In Progress': 'Mark done',
+  };
+
+  const statusEl = document.querySelector('#canvasStatus');
+  const quoteDialog = document.querySelector('#quoteDialog');
+  const quoteForm = document.querySelector('#quoteForm');
+  const discardDialog = document.querySelector('#discardDialog');
+  const discardForm = document.querySelector('#discardForm');
+
+  const escapeHtml = (value) =>
+    String(value ?? '').replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;',
+    })[char]);
+
+  const money = (quote) => {
+    if (!quote?.amount) return 'Not quoted';
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: quote.currency || 'USD' }).format(quote.amount);
+  };
+
+  const actionCard = (action) => {
+    const nextLabel = nextLabels[action.currentStatus];
+    return `
+      <article class="ops-card">
+        <div class="ops-card-top">
+          <strong>${escapeHtml(action.actionId)}</strong>
+          <span>${escapeHtml(action.currentStatus)}</span>
+        </div>
+        <h3>${escapeHtml(action.customer?.name || 'Unnamed customer')}</h3>
+        <dl>
+          <div><dt>Phone</dt><dd><a href="tel:${escapeHtml(action.customer?.phone || '')}">${escapeHtml(action.customer?.phone || '—')}</a></dd></div>
+          <div><dt>Email</dt><dd>${action.customer?.email ? `<a href="mailto:${escapeHtml(action.customer.email)}">${escapeHtml(action.customer.email)}</a>` : '—'}</dd></div>
+          <div><dt>Vehicle</dt><dd>${escapeHtml([action.vehicle?.year, action.vehicle?.make, action.vehicle?.model].filter(Boolean).join(' ') || '—')}</dd></div>
+          <div><dt>Tire</dt><dd>${escapeHtml(action.tireRequirements?.tireSize || '—')} · ${escapeHtml(action.tireRequirements?.tiresNeeded || '—')} tire(s)</dd></div>
+          <div><dt>Quote</dt><dd>${escapeHtml(money(action.quote))}</dd></div>
+        </dl>
+        ${action.notes?.length ? `<p class="ops-note">${escapeHtml(action.notes[0])}</p>` : ''}
+        <div class="ops-card-actions">
+          ${nextLabel ? `<button class="ops-btn ops-btn-primary" type="button" data-advance="${escapeHtml(action.actionId)}" data-status="${escapeHtml(action.currentStatus)}">${escapeHtml(nextLabel)}</button>` : ''}
+          <button class="ops-btn ops-btn-danger" type="button" data-discard="${escapeHtml(action.actionId)}">Discard</button>
+        </div>
+      </article>
+    `;
+  };
+
+  const setStatus = (message, isError = false) => {
+    if (!statusEl) return;
+    statusEl.textContent = message;
+    statusEl.classList.toggle('is-error', isError);
+  };
+
+  const loadCanvas = async () => {
+    setStatus('Loading requests...');
+    try {
+      const res = await fetch('/api/actions?view=canvas');
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.error || 'Unable to load actions.');
+
+      statuses.forEach((status) => {
+        const list = document.querySelector(`[data-list="${status}"]`);
+        if (list) list.innerHTML = '';
+      });
+
+      data.actions.forEach((action) => {
+        const list = document.querySelector(`[data-list="${action.currentStatus}"]`);
+        if (list) list.insertAdjacentHTML('beforeend', actionCard(action));
+      });
+
+      statuses.forEach((status) => {
+        const list = document.querySelector(`[data-list="${status}"]`);
+        if (list && !list.children.length) list.innerHTML = '<p class="ops-empty">No requests.</p>';
+      });
+
+      setStatus(`${data.actions.length} request(s) loaded.`);
+    } catch (error) {
+      setStatus(error.message || 'Unable to load actions.', true);
+    }
+  };
+
+  const patchAction = async (payload) => {
+    const res = await fetch('/api/actions', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) throw new Error(data.error || 'Unable to update action.');
+    return data.action;
+  };
+
+  document.addEventListener('click', async (event) => {
+    const closeBtn = event.target.closest('[data-close-dialog]');
+    if (closeBtn) {
+      closeBtn.closest('dialog')?.close();
+      return;
+    }
+
+    const advanceBtn = event.target.closest('[data-advance]');
+    if (advanceBtn) {
+      const actionId = advanceBtn.getAttribute('data-advance');
+      const status = advanceBtn.getAttribute('data-status');
+      if (status === 'New') {
+        document.querySelector('#quoteActionId').value = actionId;
+        quoteDialog.showModal();
+        document.querySelector('#quoteAmount').focus();
+        return;
+      }
+
+      advanceBtn.disabled = true;
+      try {
+        await patchAction({ actionId });
+        await loadCanvas();
+        setStatus('Request updated successfully.');
+      } catch (error) {
+        setStatus(error.message || 'Unable to update action.', true);
+      } finally {
+        advanceBtn.disabled = false;
+      }
+    }
+
+    const discardBtn = event.target.closest('[data-discard]');
+    if (discardBtn) {
+      document.querySelector('#discardActionId').value = discardBtn.getAttribute('data-discard');
+      discardDialog.showModal();
+      document.querySelector('#discardReason').focus();
+    }
+  });
+
+  quoteForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const actionId = document.querySelector('#quoteActionId').value;
+    const quoteAmount = document.querySelector('#quoteAmount').value;
+    const note = document.querySelector('#quoteNote').value;
+    try {
+      await patchAction({ actionId, status: 'Quoted', quoteAmount, quoteCurrency: 'USD', note });
+      quoteDialog.close();
+      quoteForm.reset();
+      await loadCanvas();
+      setStatus('Quote saved successfully.');
+    } catch (error) {
+      setStatus(error.message || 'Unable to save quote.', true);
+    }
+  });
+
+  discardForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const actionId = document.querySelector('#discardActionId').value;
+    const discardReason = document.querySelector('#discardReason').value;
+    try {
+      await patchAction({ actionId, operation: 'discard', discardReason });
+      discardDialog.close();
+      discardForm.reset();
+      await loadCanvas();
+      setStatus('Request discarded successfully.');
+    } catch (error) {
+      setStatus(error.message || 'Unable to discard request.', true);
+    }
+  });
+
+  loadCanvas();
+</script>
