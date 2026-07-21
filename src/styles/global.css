@@ -1717,7 +1717,12 @@ textarea { resize: vertical; }
   }
 
   .ops-board {
-    grid-template-columns: repeat(5, minmax(280px, 86vw));
+    grid-template-columns: 1fr;
+    overflow-x: visible;
+  }
+
+  .ops-column {
+    min-height: auto;
   }
 
   .ops-data-grid {
