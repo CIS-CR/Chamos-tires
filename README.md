@@ -52,7 +52,7 @@ cp .env.example .env
 Variables:
 
 ```env
-PUBLIC_SITE_URL=
+PUBLIC_SITE_URL=https://www.chamostireco.com
 PUBLIC_BUSINESS_NAME=Chamos Tire Co
 PUBLIC_BUSINESS_PHONE=919-633-3720
 PUBLIC_BUSINESS_PHONE_E164=+19196333720

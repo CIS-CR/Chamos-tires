@@ -23,7 +23,7 @@ const {
   locale = 'en_US',
 } = Astro.props;
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://chamos-tires.pages.dev';
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://www.chamostireco.com';
 const canonicalUrl = new URL(canonical, siteUrl).toString();
 const imageUrl = new URL(image, siteUrl).toString();
 const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || '';
