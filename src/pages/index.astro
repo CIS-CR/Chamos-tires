@@ -82,11 +82,11 @@ const facebookUrl = business.socialUrls.find((url) => url.includes('facebook.com
     <PaymentMethods compact />
     <p>Contact us to check inventory and schedule your visit.</p>
     {facebookUrl && (
-      <a class="footer-social-link" href={facebookUrl} target="_blank" rel="noopener noreferrer">
+      <a class="footer-link" href={facebookUrl} target="_blank" rel="noopener noreferrer">
         Find us on Facebook
       </a>
     )}
-    <a href="/privacy">Privacy</a>
+    <a class="footer-link" href="/privacy">Privacy</a>
   </footer>
   <StickyMobileCTA />
   <SiteInteractions />

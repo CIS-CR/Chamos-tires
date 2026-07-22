@@ -1106,7 +1106,7 @@ textarea { resize: vertical; }
   height: 44px;
 }
 
-.footer-social-link {
+.footer-link {
   width: fit-content;
   display: inline-flex;
   align-items: center;
