@@ -71,7 +71,7 @@ export const business: BusinessConfig = {
   googleDirectionsUrl: env.PUBLIC_GOOGLE_DIRECTIONS_URL || '',
   googleReviewUrl: env.PUBLIC_GOOGLE_REVIEW_URL || '',
   socialUrls: [
-    env.PUBLIC_FACEBOOK_URL || '',
+    env.PUBLIC_FACEBOOK_URL || 'https://www.facebook.com/profile.php?id=61569642455953',
     env.PUBLIC_INSTAGRAM_URL || '',
   ].filter(Boolean),
   mainDomain: env.PUBLIC_SITE_URL || 'https://chamos-tires.pages.dev',

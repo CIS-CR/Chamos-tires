@@ -1106,6 +1106,18 @@ textarea { resize: vertical; }
   height: 44px;
 }
 
+.footer-social-link {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 4px 0;
+  color: var(--accent-strong);
+  font-weight: 900;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+
 .mobile-sticky-cta {
   position: fixed;
   right: 12px;

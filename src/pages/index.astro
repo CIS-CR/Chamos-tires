@@ -22,6 +22,7 @@ const socialImage = business.defaultSocialImage;
 const canonicalUrl = new URL('/', business.mainDomain).toString();
 const socialImageUrl = new URL(socialImage, business.mainDomain).toString();
 const structuredData = createTireShopJsonLd(canonicalUrl, socialImageUrl);
+const facebookUrl = business.socialUrls.find((url) => url.includes('facebook.com'));
 ---
 
 <Layout
@@ -80,6 +81,11 @@ const structuredData = createTireShopJsonLd(canonicalUrl, socialImageUrl);
     <Nap />
     <PaymentMethods compact />
     <p>Contact us to check inventory and schedule your visit.</p>
+    {facebookUrl && (
+      <a class="footer-social-link" href={facebookUrl} target="_blank" rel="noopener noreferrer">
+        Find us on Facebook
+      </a>
+    )}
     <a href="/privacy">Privacy</a>
   </footer>
   <StickyMobileCTA />
